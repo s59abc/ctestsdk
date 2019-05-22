@@ -15,9 +15,10 @@ type QTH struct {
 	latLng s2.LatLng // LatLng represents a point on the unit sphere as a pair of angles.
 }
 
+const earthRadiusKm = 6371.0088 // mean Earth radius in km
+
 // returns distance between two Maindenhead locators in km
-func Distance(locatorA string, locatorB string) (float64, error) {
-	const earthRadiusKm = 6371.0088 // mean Earth radius in km
+func DistanceLocator(locatorA string, locatorB string) (float64, error) {
 	a, err := NewQthFromLOC(locatorA)
 	b, err := NewQthFromLOC(locatorB)
 	if err != nil {
@@ -26,6 +27,11 @@ func Distance(locatorA string, locatorB string) (float64, error) {
 		d := a.latLng.Distance(b.latLng)
 		return d.Radians() * earthRadiusKm, nil
 	}
+}
+
+func DistanceQTH(a, b QTH) float64 {
+	d := a.latLng.Distance(b.latLng)
+	return d.Radians() * earthRadiusKm
 }
 
 func illegalArgumentError(arg string) error {

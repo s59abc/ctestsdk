@@ -471,13 +471,13 @@ func TestDistance(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := Distance(tt.args.locatorA, tt.args.locatorB)
+			got, err := DistanceLocator(tt.args.locatorA, tt.args.locatorB)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("Distance() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("DistanceLocator() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if got != tt.want {
-				t.Errorf("Distance() = %v, want %v", got, tt.want)
+				t.Errorf("DistanceLocator() = %v, want %v", got, tt.want)
 			}
 		})
 	}
