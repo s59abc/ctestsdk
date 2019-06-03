@@ -468,6 +468,15 @@ func TestDistance(t *testing.T) {
 			want:    20010.481313695705,
 			wantErr: false,
 		},
+		{
+			name: "S59ABC-S57M",
+			args: args{
+				locatorA: "jn76to",
+				locatorB: "jn76po",
+			},
+			want:    25.464939494933233,
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
