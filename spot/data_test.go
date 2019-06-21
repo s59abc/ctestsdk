@@ -2,6 +2,7 @@ package spot
 
 import (
 	"ctestsdk/cty"
+	"ctestsdk/freq"
 	"ctestsdk/geo"
 	"reflect"
 	"testing"
@@ -115,7 +116,7 @@ func TestNewSpot(t *testing.T) {
 				comments: "CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
 				Source:   "",
 				IsRbn:    true,
-				BAND:     0,
+				BAND:     freq.Band80M,
 				MODE:     0,
 				DxQTH:    geo.QTH{},
 				DxCtyDta: cty.Dta{},

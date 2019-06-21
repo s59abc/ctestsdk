@@ -9,55 +9,55 @@ import (
 type Band int
 
 const (
-	UNKNOWN Band = iota
-	M160
-	M80
-	M40
-	M20
-	M15
-	M10
+	BandUNKNOWN Band = iota
+	Band160M
+	Band80M
+	Band40M
+	Band20M
+	Band15M
+	Band10M
 )
 
 func (a Band) String() string {
 	switch a {
-	case M160:
+	case Band160M:
 		return "160M"
-	case M80:
+	case Band80M:
 		return "80M"
-	case M40:
+	case Band40M:
 		return "40M"
-	case M20:
+	case Band20M:
 		return "20M"
-	case M15:
+	case Band15M:
 		return "15M"
-	case M10:
+	case Band10M:
 		return "10M"
 
 	default:
-		return "UNKNOWN"
+		return "BandUNKNOWN"
 	}
 }
 
 func GetBand(kHz string) (Band, error) {
 	kHz = strings.TrimSpace(kHz)
-	band := UNKNOWN
+	band := BandUNKNOWN
 	freq, err := strconv.ParseFloat(kHz, 32)
 	if err != nil {
 		return band, err
 	}
 	switch {
 	case freq >= 1800 && freq < 2000:
-		band = M160
+		band = Band160M
 	case freq >= 3500 && freq < 4000:
-		band = M80
+		band = Band80M
 	case freq >= 7000 && freq < 7300:
-		band = M40
+		band = Band40M
 	case freq >= 14000 && freq < 14350:
-		band = M20
+		band = Band20M
 	case freq >= 21000 && freq < 21450:
-		band = M15
+		band = Band15M
 	case freq >= 28000 && freq < 29700:
-		band = M10
+		band = Band10M
 	default:
 		return band, errors.New("Unsupported band, freq=" + kHz + " kHz")
 	}

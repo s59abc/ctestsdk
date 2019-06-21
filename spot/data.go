@@ -71,7 +71,13 @@ func NewSpot(rawData string, source string) (Data, error) {
 		if len(sss) != 4 {
 			return Data{}, errors.New("Not a regular spot; Unexpected split by space! " + rawData)
 		}
+
+		//freq, band
 		data.freq = sss[1]
+		if b, e := freq.GetBand(data.freq); e == nil {
+			data.BAND = b
+		}
+		//		BAND, _ = freq.GetBand(data.freq)
 		data.dx = sss[2]
 		data.comments = sss[3]
 

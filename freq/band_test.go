@@ -17,7 +17,7 @@ func TestGetBand(t *testing.T) {
 			args: args{
 				kHz: "1800.0",
 			},
-			want:    M160,
+			want:    Band160M,
 			wantErr: false,
 		},
 		{
@@ -25,7 +25,7 @@ func TestGetBand(t *testing.T) {
 			args: args{
 				kHz: "3500.0",
 			},
-			want:    M80,
+			want:    Band80M,
 			wantErr: false,
 		},
 		{
@@ -33,7 +33,7 @@ func TestGetBand(t *testing.T) {
 			args: args{
 				kHz: "   7000.0   ",
 			},
-			want:    M40,
+			want:    Band40M,
 			wantErr: false,
 		},
 		{
@@ -41,7 +41,7 @@ func TestGetBand(t *testing.T) {
 			args: args{
 				kHz: "14000.0   ",
 			},
-			want:    M20,
+			want:    Band20M,
 			wantErr: false,
 		},
 		{
@@ -49,7 +49,7 @@ func TestGetBand(t *testing.T) {
 			args: args{
 				kHz: " 21000.0",
 			},
-			want:    M15,
+			want:    Band15M,
 			wantErr: false,
 		},
 		{
@@ -57,7 +57,7 @@ func TestGetBand(t *testing.T) {
 			args: args{
 				kHz: "28000.0",
 			},
-			want:    M10,
+			want:    Band10M,
 			wantErr: false,
 		},
 
@@ -66,7 +66,7 @@ func TestGetBand(t *testing.T) {
 			args: args{
 				kHz: "",
 			},
-			want:    UNKNOWN,
+			want:    BandUNKNOWN,
 			wantErr: true,
 		},
 
@@ -75,7 +75,7 @@ func TestGetBand(t *testing.T) {
 			args: args{
 				kHz: "3500,0",
 			},
-			want:    UNKNOWN,
+			want:    BandUNKNOWN,
 			wantErr: true,
 		},
 		{
@@ -83,7 +83,7 @@ func TestGetBand(t *testing.T) {
 			args: args{
 				kHz: "3.500.0",
 			},
-			want:    UNKNOWN,
+			want:    BandUNKNOWN,
 			wantErr: true,
 		},
 	}
