@@ -20,14 +20,14 @@ func TestSubsquareEncode(t *testing.T) {
 			name: "encode-S59ABC-JN76TO",
 			args: args{
 				lld: LatLonDeg{
-					lat: 46.60333,
-					lon: 15.62333,
+					Lat: 46.60333,
+					Lon: 15.62333,
 				},
 			},
 			want: field{
 				decoded: LatLonDeg{
-					lat: 40,
-					lon: 0,
+					Lat: 40,
+					Lon: 0,
 				},
 				encoded: latLonChar{
 					latChar: 78,
@@ -36,8 +36,8 @@ func TestSubsquareEncode(t *testing.T) {
 			},
 			want1: square{
 				decoded: LatLonDeg{
-					lat: 6,
-					lon: 14,
+					Lat: 6,
+					Lon: 14,
 				},
 				encoded: latLonChar{
 					latChar: 54,
@@ -46,8 +46,8 @@ func TestSubsquareEncode(t *testing.T) {
 			},
 			want2: subsquare{
 				decoded: LatLonDeg{
-					lat: 35, //minutes
-					lon: 95, //minutes
+					Lat: 35, //minutes
+					Lon: 95, //minutes
 				},
 				encoded: latLonChar{
 					latChar: 79, // O
@@ -60,14 +60,14 @@ func TestSubsquareEncode(t *testing.T) {
 			name: "encode-K1TTT-FN32LL",
 			args: args{
 				lld: LatLonDeg{
-					lat: 42.4662,
-					lon: -73.0232,
+					Lat: 42.4662,
+					Lon: -73.0232,
 				},
 			},
 			want: field{
 				decoded: LatLonDeg{
-					lat: 40,
-					lon: -80,
+					Lat: 40,
+					Lon: -80,
 				},
 				encoded: latLonChar{
 					latChar: 78, //N
@@ -76,8 +76,8 @@ func TestSubsquareEncode(t *testing.T) {
 			},
 			want1: square{
 				decoded: LatLonDeg{
-					lat: 2,
-					lon: 6,
+					Lat: 2,
+					Lon: 6,
 				},
 				encoded: latLonChar{
 					latChar: 50, //2
@@ -86,8 +86,8 @@ func TestSubsquareEncode(t *testing.T) {
 			},
 			want2: subsquare{
 				decoded: LatLonDeg{
-					lat: 27.5, //minutes
-					lon: 55,   //minutes
+					Lat: 27.5, //minutes
+					Lon: 55,   //minutes
 				},
 				encoded: latLonChar{
 					latChar: 76, // L
@@ -100,14 +100,14 @@ func TestSubsquareEncode(t *testing.T) {
 			name: "encode-PS2T-GG58WG",
 			args: args{
 				lld: LatLonDeg{
-					lat: -21.7487,
-					lon: -48.1268,
+					Lat: -21.7487,
+					Lon: -48.1268,
 				},
 			},
 			want: field{
 				decoded: LatLonDeg{
-					lat: -30,
-					lon: -60,
+					Lat: -30,
+					Lon: -60,
 				},
 				encoded: latLonChar{
 					latChar: 71,
@@ -116,8 +116,8 @@ func TestSubsquareEncode(t *testing.T) {
 			},
 			want1: square{
 				decoded: LatLonDeg{
-					lat: 8,
-					lon: 10,
+					Lat: 8,
+					Lon: 10,
 				},
 				encoded: latLonChar{
 					latChar: 56,
@@ -126,8 +126,8 @@ func TestSubsquareEncode(t *testing.T) {
 			},
 			want2: subsquare{
 				decoded: LatLonDeg{
-					lat: 15,
-					lon: 110,
+					Lat: 15,
+					Lon: 110,
 				},
 				encoded: latLonChar{
 					latChar: 71,
@@ -140,14 +140,14 @@ func TestSubsquareEncode(t *testing.T) {
 			name: "encode-ZM4T-RF80LQ",
 			args: args{
 				lld: LatLonDeg{
-					lat: -39.3125,
-					lon: 176.9583333,
+					Lat: -39.3125,
+					Lon: 176.9583333,
 				},
 			},
 			want: field{
 				decoded: LatLonDeg{
-					lat: -40,
-					lon: 160,
+					Lat: -40,
+					Lon: 160,
 				},
 				encoded: latLonChar{
 					latChar: 70, // F
@@ -156,8 +156,8 @@ func TestSubsquareEncode(t *testing.T) {
 			},
 			want1: square{
 				decoded: LatLonDeg{
-					lat: 0,
-					lon: 16,
+					Lat: 0,
+					Lon: 16,
 				},
 				encoded: latLonChar{
 					latChar: 48, // 0
@@ -166,8 +166,8 @@ func TestSubsquareEncode(t *testing.T) {
 			},
 			want2: subsquare{
 				decoded: LatLonDeg{
-					lat: 40,
-					lon: 55,
+					Lat: 40,
+					Lon: 55,
 				},
 				encoded: latLonChar{
 					latChar: 81, // L
@@ -211,8 +211,8 @@ func TestSubsquareDecode(t *testing.T) {
 			},
 			want: subsquare{
 				decoded: LatLonDeg{
-					lat: 0,
-					lon: 0,
+					Lat: 0,
+					Lon: 0,
 				},
 				encoded: latLonChar{
 					latChar: 0,
@@ -231,8 +231,8 @@ func TestSubsquareDecode(t *testing.T) {
 			},
 			want: subsquare{
 				decoded: LatLonDeg{
-					lat: 0,
-					lon: 0,
+					Lat: 0,
+					Lon: 0,
 				},
 				encoded: latLonChar{
 					latChar: 65,
@@ -251,8 +251,8 @@ func TestSubsquareDecode(t *testing.T) {
 			},
 			want: subsquare{
 				decoded: LatLonDeg{
-					lat: 57.5,
-					lon: 115,
+					Lat: 57.5,
+					Lon: 115,
 				},
 				encoded: latLonChar{
 					latChar: 88,
@@ -271,8 +271,8 @@ func TestSubsquareDecode(t *testing.T) {
 			},
 			want: subsquare{
 				decoded: LatLonDeg{
-					lat: 35, //minutes
-					lon: 95, //minutes
+					Lat: 35, //minutes
+					Lon: 95, //minutes
 				},
 				encoded: latLonChar{
 					latChar: 79, // O

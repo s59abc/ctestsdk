@@ -10,11 +10,11 @@ import (
 //
 // Decimal degrees
 type LatLonDeg struct {
-	lat, lon float64
+	Lat, Lon float64
 }
 
 func (a *LatLonDeg) String() string {
-	return fmt.Sprintf("lat=%.4f, lon=%.4f", a.lat, a.lon)
+	return fmt.Sprintf("Lat=%.4f, Lon=%.4f", a.Lat, a.Lon)
 }
 
 func (a *LatLonDeg) Equal(b LatLonDeg) bool {
@@ -24,7 +24,7 @@ func (a *LatLonDeg) Equal(b LatLonDeg) bool {
 func (a *LatLonDeg) ToLatLonDMS() LatLonDMS {
 	dms := LatLonDMS{}
 
-	intLatDeg, fracLatDeg := math.Modf(a.lat)
+	intLatDeg, fracLatDeg := math.Modf(a.Lat)
 	intLatMin, fracLatMin := math.Modf(fracLatDeg * 60)
 	intLatSec, _ := math.Modf(fracLatMin * 60)
 	dms.latDMS.degrees = intLatDeg
@@ -32,7 +32,7 @@ func (a *LatLonDeg) ToLatLonDMS() LatLonDMS {
 	dms.latDMS.minutes = int(math.Abs(intLatMin))
 	dms.latDMS.seconds = int(math.Abs(intLatSec))
 
-	intLonDeg, fracLonDeg := math.Modf(a.lon)
+	intLonDeg, fracLonDeg := math.Modf(a.Lon)
 	intLonMin, fracLonMin := math.Modf(fracLonDeg * 60)
 	intLonSec, _ := math.Modf(fracLonMin * 60)
 	dms.lonDMS.degrees = intLonDeg
@@ -60,7 +60,7 @@ type LatLonDMS struct {
 }
 
 func (a *LatLonDMS) String() string {
-	return fmt.Sprintf("lat=%s, lon=%s", a.latDMS.String(), a.lonDMS.String())
+	return fmt.Sprintf("Lat=%s, Lon=%s", a.latDMS.String(), a.lonDMS.String())
 }
 
 //

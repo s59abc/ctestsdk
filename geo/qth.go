@@ -57,8 +57,8 @@ func NewQthFromLOC(qthLocator string) (QTH, error) {
 					latChar: qthLocator[5],
 					lonChar: qthLocator[4],
 				})
-				lat := f.decoded.lat + s.decoded.lat + ss.decoded.lat/60 + 0.02083333 // 1.25' / 60
-				lon := f.decoded.lon + s.decoded.lon + ss.decoded.lon/60 + 0.04166667 // 2.5' / 60
+				lat := f.decoded.Lat + s.decoded.Lat + ss.decoded.Lat/60 + 0.02083333 // 1.25' / 60
+				lon := f.decoded.Lon + s.decoded.Lon + ss.decoded.Lon/60 + 0.04166667 // 2.5' / 60
 				return QTH{
 					loc:    qthLocator,
 					latLon: LatLonDeg{lat, lon},
@@ -79,8 +79,8 @@ func NewQthFromLOC(qthLocator string) (QTH, error) {
 					latChar: qthLocator[3],
 					lonChar: qthLocator[2],
 				})
-				lat := f.decoded.lat + s.decoded.lat + 0.5
-				lon := f.decoded.lon + s.decoded.lon + 1
+				lat := f.decoded.Lat + s.decoded.Lat + 0.5
+				lon := f.decoded.Lon + s.decoded.Lon + 1
 				return QTH{
 					loc:    qthLocator,
 					latLon: LatLonDeg{lat, lon},
@@ -97,8 +97,8 @@ func NewQthFromLOC(qthLocator string) (QTH, error) {
 					latChar: qthLocator[1],
 					lonChar: qthLocator[0],
 				})
-				lat := f.decoded.lat + 5
-				lon := f.decoded.lon + 10
+				lat := f.decoded.Lat + 5
+				lon := f.decoded.Lon + 10
 
 				return QTH{
 					loc:    qthLocator,
@@ -118,8 +118,8 @@ func NewQthFromLOC(qthLocator string) (QTH, error) {
 
 func NewQthFromLatLon(latitude, longitude float64) (QTH, error) {
 	lld := LatLonDeg{
-		lat: latitude,
-		lon: longitude,
+		Lat: latitude,
+		Lon: longitude,
 	}
 	if math.Abs(latitude) > 90 || math.Abs(longitude) > 180 {
 		return QTH{}, illegalArgumentError(lld.String())

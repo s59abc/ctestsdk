@@ -137,24 +137,24 @@ func fieldEncode(lld LatLonDeg) field {
 
 	iLat, iLon := 0, 0
 	for _, v := range aLon {
-		if lld.lon >= v && lld.lon < v+20 {
+		if lld.Lon >= v && lld.Lon < v+20 {
 			iLon = int(v)
-			//fmt.Printf("lld.lon=%f iLon=%d \n", lld.lon, iLon)
+			//fmt.Printf("lld.Lon=%f iLon=%d \n", lld.Lon, iLon)
 			break
 		}
 	}
 	for _, v := range aLat {
-		if lld.lat >= v && lld.lat < v+10 {
+		if lld.Lat >= v && lld.Lat < v+10 {
 			iLat = int(v)
-			//fmt.Printf("lld.lat=%f iLat=%d \n", lld.lat, iLat)
+			//fmt.Printf("lld.Lat=%f iLat=%d \n", lld.Lat, iLat)
 			break
 		}
 	}
 
 	a.encoded.setLatChar(mLat[iLat])
 	a.encoded.setLonChar(mLon[iLon])
-	a.decoded.lat = float64(iLat)
-	a.decoded.lon = float64(iLon)
+	a.decoded.Lat = float64(iLat)
+	a.decoded.Lon = float64(iLon)
 	return a
 }
 
@@ -200,8 +200,8 @@ func fieldDecode(llc latLonChar) field {
 		"Q": 140,
 		"R": 160,
 	}
-	a.decoded.lat = mLat[llc.getLatChar()]
-	a.decoded.lon = mLon[llc.getLonChar()]
+	a.decoded.Lat = mLat[llc.getLatChar()]
+	a.decoded.Lon = mLon[llc.getLonChar()]
 	a.encoded = llc
 	return a
 }

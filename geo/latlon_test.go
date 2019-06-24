@@ -13,14 +13,14 @@ func TestLatLon_Equal(t *testing.T) {
 		t.Fatal()
 	}
 	//
-	a.lon = 1.1
-	a.lat = 2.2
+	a.Lon = 1.1
+	a.Lat = 2.2
 	if a.Equal(b) {
 		t.Fatal()
 	}
 	//
-	b.lon = 1.1
-	b.lat = 2.2
+	b.Lon = 1.1
+	b.Lat = 2.2
 	if !a.Equal(b) {
 		t.Fatal()
 	}
@@ -28,7 +28,7 @@ func TestLatLon_Equal(t *testing.T) {
 
 func TestLatLon_String(t *testing.T) {
 	a := LatLonDeg{1.12345, -1.12345}
-	if a.String() != "lat=1.1235, lon=-1.1235" {
+	if a.String() != "Lat=1.1235, Lon=-1.1235" {
 		t.Fatal()
 	}
 }
@@ -356,8 +356,8 @@ func TestLatLonDeg_ToLatLonDMS(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &LatLonDeg{
-				lat: tt.fields.Lat,
-				lon: tt.fields.Lon,
+				Lat: tt.fields.Lat,
+				Lon: tt.fields.Lon,
 			}
 			if got := a.ToLatLonDMS(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("LatLonDeg.ToLatLonDMS() = %v, want %v", got, tt.want)
@@ -390,7 +390,7 @@ func TestLatLonDMS_String(t *testing.T) {
 					seconds: 0,
 				},
 			},
-			want: `lat=0°0'0", lon=0°0'0"`,
+			want: `Lat=0°0'0", Lon=0°0'0"`,
 		},
 
 		{
@@ -407,7 +407,7 @@ func TestLatLonDMS_String(t *testing.T) {
 					seconds: 6,
 				},
 			},
-			want: `lat=1°2'3", lon=4°5'6"`,
+			want: `Lat=1°2'3", Lon=4°5'6"`,
 		},
 
 		{
@@ -424,7 +424,7 @@ func TestLatLonDMS_String(t *testing.T) {
 					seconds: 6,
 				},
 			},
-			want: `lat=-1°2'3", lon=-4°5'6"`,
+			want: `Lat=-1°2'3", Lon=-4°5'6"`,
 		},
 	}
 	for _, tt := range tests {

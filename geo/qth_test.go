@@ -25,8 +25,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "",
 				latLon: LatLonDeg{
-					lat: 0,
-					lon: 0,
+					Lat: 0,
+					Lon: 0,
 				},
 				latLng: s2.LatLng{
 					Lat: 0,
@@ -43,8 +43,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "",
 				latLon: LatLonDeg{
-					lat: 0,
-					lon: 0,
+					Lat: 0,
+					Lon: 0,
 				},
 				latLng: s2.LatLng{
 					Lat: 0,
@@ -61,8 +61,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "",
 				latLon: LatLonDeg{
-					lat: 0,
-					lon: 0,
+					Lat: 0,
+					Lon: 0,
 				},
 				latLng: s2.LatLng{
 					Lat: 0,
@@ -79,8 +79,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "",
 				latLon: LatLonDeg{
-					lat: 0,
-					lon: 0,
+					Lat: 0,
+					Lon: 0,
 				},
 				latLng: s2.LatLng{
 					Lat: 0,
@@ -98,8 +98,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "",
 				latLon: LatLonDeg{
-					lat: 0,
-					lon: 0,
+					Lat: 0,
+					Lon: 0,
 				},
 				latLng: s2.LatLng{
 					Lat: 0,
@@ -117,8 +117,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "JN",
 				latLon: LatLonDeg{
-					lat: 45,
-					lon: 10,
+					Lat: 45,
+					Lon: 10,
 				},
 				latLng: s2.LatLng{
 					Lat: 0.7853981633974483,
@@ -136,8 +136,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "",
 				latLon: LatLonDeg{
-					lat: 0,
-					lon: 0,
+					Lat: 0,
+					Lon: 0,
 				},
 				latLng: s2.LatLng{
 					Lat: 0,
@@ -155,8 +155,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "JN76",
 				latLon: LatLonDeg{
-					lat: 46.5,
-					lon: 15,
+					Lat: 46.5,
+					Lon: 15,
 				},
 				latLng: s2.LatLng{
 					Lat: 0.8115781021773633,
@@ -174,8 +174,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "",
 				latLon: LatLonDeg{
-					lat: 0,
-					lon: 0,
+					Lat: 0,
+					Lon: 0,
 				},
 				latLng: s2.LatLng{
 					Lat: 0,
@@ -193,8 +193,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "JN76TO",
 				latLon: LatLonDeg{
-					lat: 46.60416666333334,
-					lon: 15.625000003333334,
+					Lat: 46.60416666333334,
+					Lon: 15.625000003333334,
 				},
 				latLng: s2.LatLng{
 					Lat: 0.8133961534233465,
@@ -212,8 +212,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "FN32LL",
 				latLon: LatLonDeg{
-					lat: 42.47916666333334,
-					lon: -73.04166666333333,
+					Lat: 42.47916666333334,
+					Lon: -73.04166666333333,
 				},
 				latLng: s2.LatLng{
 					Lat: 0.7414013217785803,
@@ -231,8 +231,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "GG58WG",
 				latLon: LatLonDeg{
-					lat: -21.72916667,
-					lon: -48.124999996666666,
+					Lat: -21.72916667,
+					Lon: -48.124999996666666,
 				},
 				latLng: s2.LatLng{
 					Lat: -0.3792455021061122,
@@ -250,8 +250,8 @@ func TestNewQthFromLOC(t *testing.T) {
 			want: QTH{
 				loc: "RF80LQ",
 				latLon: LatLonDeg{
-					lat: -39.312500003333334,
-					lon: 176.95833333666667,
+					Lat: -39.312500003333334,
+					Lon: 176.95833333666667,
 				},
 				latLng: s2.LatLng{
 					Lat: -0.6861325622484484,
@@ -295,8 +295,8 @@ func TestNewQthFromLatLon(t *testing.T) {
 			want: QTH{
 				loc: "JN76TO",
 				latLon: LatLonDeg{
-					lat: 46.60416666333334,
-					lon: 15.625000003333334,
+					Lat: 46.60416666333334,
+					Lon: 15.625000003333334,
 				},
 				latLng: s2.LatLng{
 					Lat: 0.8133961534233465,
@@ -314,8 +314,8 @@ func TestNewQthFromLatLon(t *testing.T) {
 			want: QTH{
 				loc: "FN32LL",
 				latLon: LatLonDeg{
-					lat: 42.47916666333334,
-					lon: -73.04166666333333,
+					Lat: 42.47916666333334,
+					Lon: -73.04166666333333,
 				},
 				latLng: s2.LatLng{
 					Lat: 0.7414013217785803,
@@ -334,8 +334,8 @@ func TestNewQthFromLatLon(t *testing.T) {
 			want: QTH{
 				loc: "GG58WG",
 				latLon: LatLonDeg{
-					lat: -21.72916667,
-					lon: -48.124999996666666,
+					Lat: -21.72916667,
+					Lon: -48.124999996666666,
 				},
 				latLng: s2.LatLng{
 					Lat: -0.3792455021061122,
@@ -354,8 +354,8 @@ func TestNewQthFromLatLon(t *testing.T) {
 			want: QTH{
 				loc: "RF80LQ",
 				latLon: LatLonDeg{
-					lat: -39.312500003333334,
-					lon: 176.95833333666667,
+					Lat: -39.312500003333334,
+					Lon: 176.95833333666667,
 				},
 				latLng: s2.LatLng{
 					Lat: -0.6861325622484484,
@@ -374,8 +374,8 @@ func TestNewQthFromLatLon(t *testing.T) {
 			want: QTH{
 				loc: "",
 				latLon: LatLonDeg{
-					lat: 0,
-					lon: 0,
+					Lat: 0,
+					Lon: 0,
 				},
 				latLng: s2.LatLng{
 					Lat: 0,
@@ -394,8 +394,8 @@ func TestNewQthFromLatLon(t *testing.T) {
 			want: QTH{
 				loc: "AR09AX",
 				latLon: LatLonDeg{
-					lat: 89.99999999999999,
-					lon: -180,
+					Lat: 89.99999999999999,
+					Lon: -180,
 				},
 				latLng: s2.LatLng{
 					Lat: 1.5707963267948963,
@@ -414,8 +414,8 @@ func TestNewQthFromLatLon(t *testing.T) {
 			want: QTH{
 				loc: "AA00AA",
 				latLon: LatLonDeg{
-					lat: -90,
-					lon: -180,
+					Lat: -90,
+					Lon: -180,
 				},
 				latLng: s2.LatLng{
 					Lat: -1.5707963267948966,

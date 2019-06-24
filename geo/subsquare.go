@@ -36,8 +36,8 @@ func subsquareEncode(lld LatLonDeg) (field, square, subsquare) {
 	fld, sqr := squareEncode(lld)
 	subsqr := subsquare{}
 
-	latMinutes := math.Abs(fld.decoded.lat+sqr.decoded.lat-lld.lat) * 60
-	lonMinutes := math.Abs(fld.decoded.lon+sqr.decoded.lon-lld.lon) * 60
+	latMinutes := math.Abs(fld.decoded.Lat+sqr.decoded.Lat-lld.Lat) * 60
+	lonMinutes := math.Abs(fld.decoded.Lon+sqr.decoded.Lon-lld.Lon) * 60
 
 	subsquareLetters := [24]string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"}
 
@@ -58,7 +58,7 @@ func subsquareEncode(lld LatLonDeg) (field, square, subsquare) {
 	for i, v := range aLat {
 		if latMinutes >= v && latMinutes < v+2.5 {
 			subsqr.encoded.latChar = byte(subsquareLetters[i][0])
-			subsqr.decoded.lat = v
+			subsqr.decoded.Lat = v
 			break
 		}
 	}
@@ -80,7 +80,7 @@ func subsquareEncode(lld LatLonDeg) (field, square, subsquare) {
 	for i, v := range aLon {
 		if lonMinutes >= v && lonMinutes < v+5 {
 			subsqr.encoded.lonChar = byte(subsquareLetters[i][0])
-			subsqr.decoded.lon = v
+			subsqr.decoded.Lon = v
 			break
 		}
 	}
@@ -142,8 +142,8 @@ func subsquareDecode(llc latLonChar) subsquare {
 		"W": 110,
 		"X": 115,
 	}
-	s.decoded.lat = mLat[llc.getLatChar()]
-	s.decoded.lon = mLon[llc.getLonChar()]
+	s.decoded.Lat = mLat[llc.getLatChar()]
+	s.decoded.Lon = mLon[llc.getLonChar()]
 	s.encoded = llc
 	return s
 }

@@ -94,8 +94,8 @@ func squareEncode(lld LatLonDeg) (field, square) {
 	f := fieldEncode(lld)
 	iLat, iLon := 0, 0
 
-	fLat := lld.lat - f.decoded.lat
-	fLon := lld.lon - f.decoded.lon
+	fLat := lld.Lat - f.decoded.Lat
+	fLon := lld.Lon - f.decoded.Lon
 
 	for _, v := range aLon {
 		if fLon >= v && fLon < v+2 {
@@ -113,8 +113,8 @@ func squareEncode(lld LatLonDeg) (field, square) {
 
 	s.encoded.setLatChar(mLat[iLat])
 	s.encoded.setLonChar(mLon[iLon])
-	s.decoded.lat = float64(iLat)
-	s.decoded.lon = float64(iLon)
+	s.decoded.Lat = float64(iLat)
+	s.decoded.Lon = float64(iLon)
 	return f, s
 }
 
@@ -144,8 +144,8 @@ func squareDecode(llc latLonChar) square {
 		"8": 16,
 		"9": 18,
 	}
-	s.decoded.lat = mLat[llc.getLatChar()]
-	s.decoded.lon = mLon[llc.getLonChar()]
+	s.decoded.Lat = mLat[llc.getLatChar()]
+	s.decoded.Lon = mLon[llc.getLonChar()]
 	s.encoded = llc
 	return s
 }

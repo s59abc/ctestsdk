@@ -15,12 +15,12 @@ func TestField_String(t *testing.T) {
 		fields fields
 		want   string
 	}{
-		{"toString-decoded-zero-1", fields{decoded: LatLonDeg{0, 0}}, "Decoded:lat=0.0000, lon=0.0000"},
-		{"toString-decoded-zero-2", fields{decoded: LatLonDeg{}}, "Decoded:lat=0.0000, lon=0.0000"},
-		{"toString-decoded-set", fields{decoded: LatLonDeg{0.0000001, 0.0000001}}, "Decoded:lat=0.0000, lon=0.0000"},
-		{"toString-encoded-zero", fields{encoded: latLonChar{}}, "Decoded:lat=0.0000, lon=0.0000"},
-		{"toString-encoded-set", fields{encoded: latLonChar{byte("A"[0]), byte("A"[0])}}, "Decoded:lat=0.0000, lon=0.0000 Encoded:AA"},
-		{"toString-encoded-decoded-set", fields{encoded: latLonChar{byte("A"[0]), byte("A"[0])}, decoded: LatLonDeg{-90, -180}}, "Decoded:lat=-90.0000, lon=-180.0000 Encoded:AA"},
+		{"toString-decoded-zero-1", fields{decoded: LatLonDeg{0, 0}}, "Decoded:Lat=0.0000, Lon=0.0000"},
+		{"toString-decoded-zero-2", fields{decoded: LatLonDeg{}}, "Decoded:Lat=0.0000, Lon=0.0000"},
+		{"toString-decoded-set", fields{decoded: LatLonDeg{0.0000001, 0.0000001}}, "Decoded:Lat=0.0000, Lon=0.0000"},
+		{"toString-encoded-zero", fields{encoded: latLonChar{}}, "Decoded:Lat=0.0000, Lon=0.0000"},
+		{"toString-encoded-set", fields{encoded: latLonChar{byte("A"[0]), byte("A"[0])}}, "Decoded:Lat=0.0000, Lon=0.0000 Encoded:AA"},
+		{"toString-encoded-decoded-set", fields{encoded: latLonChar{byte("A"[0]), byte("A"[0])}, decoded: LatLonDeg{-90, -180}}, "Decoded:Lat=-90.0000, Lon=-180.0000 Encoded:AA"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
