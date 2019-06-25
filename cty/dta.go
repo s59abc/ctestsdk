@@ -8,16 +8,17 @@ import (
 )
 
 type Dta struct {
-	countryName string        //Country Name
-	prefix      string        //Primary or Alias DXCC Prefix without optional * indicator
-	continent   continentEnum //2-letter continent abbreviation
-	cqZone      cqzoneEnum    //CQ Zone
-	ituZone     ituzoneEnum   //ITU Zone
-	latLon      geo.LatLonDeg //Latitude in degrees, + for North; Longitude in degrees, + for West
-	timeOffset  string        //Local time offset from GMT
+	countryName   string //Country Name
+	primaryPrefix string
+	aliasPrefix   string        //Primary or Alias DXCC Prefix without optional * indicator
+	continent     continentEnum //2-letter continent abbreviation
+	cqZone        cqzoneEnum    //CQ Zone
+	ituZone       ituzoneEnum   //ITU Zone
+	latLon        geo.LatLonDeg //Latitude in degrees, + for North; Longitude in degrees, + for West
+	timeOffset    string        //Local time offset from GMT
 }
 
 func (a Dta) String() string {
-	return fmt.Sprintf("countryName=%s, prefix=%s, continent=%s, cqZone=%d, ituZone=%d, %s, timeOffset=%s", a.countryName, a.prefix, a.continent.String(), a.cqZone, a.ituZone, a.latLon.String(), a.timeOffset)
+	return fmt.Sprintf("countryName=%s, primaryPrefix=%s, aliasPrefix=%s, continent=%s, cqZone=%d, ituZone=%d, %s, timeOffset=%s", a.countryName, a.primaryPrefix, a.aliasPrefix, a.continent.String(), a.cqZone, a.ituZone, a.latLon.String(), a.timeOffset)
 
 }

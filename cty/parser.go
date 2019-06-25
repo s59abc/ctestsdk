@@ -18,7 +18,10 @@ func wrongFormattedRecord(description string, ctyDataRecord string) error {
 
 ///////////////
 // regex
-var pfxRegex *regexp.Regexp = regexp.MustCompile(`[0-9A-Z/]{1,}`)
+var regexPfx *regexp.Regexp = regexp.MustCompile(`[0-9A-Za-z/]{1,}`)
+var regexOverrideCqZone *regexp.Regexp = regexp.MustCompile(`\([0-9]{1,2}\)`)
+var regexOverrideItuZone *regexp.Regexp = regexp.MustCompile(`[([0-9]{1,2}]`)
+var regexZone *regexp.Regexp = regexp.MustCompile(`[0-9]{1,2}`)
 
 // this function parse cty dat record, record format is defined at
 // https://www.country-files.com/cty-dat-format/
@@ -98,13 +101,14 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	primaryDta.timeOffset = strings.TrimSpace(fields[6])
 	//
 	//70	6	Primary DXCC Prefix
-	// (A “*” preceding this prefix indicates that the country is on the DARC WAEDC ctyDatList, and counts in CQ-sponsored contests, but not ARRL-sponsored contests).
+	// (A “*” preceding this aliasPrefix indicates that the country is on the DARC WAEDC ctyDatList, and counts in CQ-sponsored contests, but not ARRL-sponsored contests).
 	primaryPfx := strings.TrimSpace(fields[7])
 	// remove preceding * if is present
 	if len(primaryPfx) > 1 && primaryPfx[0] == byte('*') {
 		primaryPfx = primaryPfx[1:]
 	}
-	primaryDta.prefix = primaryPfx
+	primaryDta.primaryPrefix = primaryPfx
+	primaryDta.aliasPrefix = primaryPfx
 	//
 	ctyDatList[0] = primaryDta
 	//
@@ -112,13 +116,50 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	// processing aliasRecords
 	idx := 1
 	for _, v := range aliasRecords {
-		pfx := pfxRegex.FindString(v)
+		pfx := regexPfx.FindString(v)
 		if pfx != "" && pfx != primaryPfx { //Alias DXCC prefixes always include the primary one
-			//TODO: remove
-			fmt.Println("---------> PFX: ", pfx)
 			aliasDta := primaryDta
-			aliasDta.prefix = pfx
-			ctyDatList[idx] = aliasDta
+			aliasDta.aliasPrefix = pfx
+			//
+			// check for override cq zone
+			overrideCqZone := regexOverrideCqZone.FindString(v)
+			if overrideCqZone != "" {
+				cqZone := regexZone.FindString(overrideCqZone)
+				if cqZone != "" {
+					if i, e := strconv.Atoi(cqZone); e != nil {
+						//TODO: test
+						return nil, wrongFormattedRecord("wrong formatted override CQ Zone: "+cqZone+" "+e.Error(), ctyDatRecord)
+					} else {
+						aliasDta.cqZone = cqzoneEnum(i)
+					}
+				} else {
+					//TODO: test
+					return nil, wrongFormattedRecord("wrong formatted override CQ Zone: "+cqZone, ctyDatRecord)
+				}
+			}
+			//
+			// check for override cq zone
+			overrideItuZone := regexOverrideItuZone.FindString(v)
+			if overrideItuZone != "" {
+				ituZone := regexZone.FindString(overrideItuZone)
+				if ituZone != "" {
+					if i, e := strconv.Atoi(ituZone); e != nil {
+						//TODO: test
+						return nil, wrongFormattedRecord("wrong formatted override ITU Zone: "+ituZone+" "+e.Error(), ctyDatRecord)
+					} else {
+						aliasDta.ituZone = ituzoneEnum(i)
+					}
+				} else {
+					//TODO: test
+					return nil, wrongFormattedRecord("wrong formatted override ITU Zone: "+ituZone, ctyDatRecord)
+				}
+			}
+
+			if idx >= cap(ctyDatList) {
+				ctyDatList = append(ctyDatList, aliasDta)
+			} else {
+				ctyDatList[idx] = aliasDta
+			}
 			idx++
 		}
 
