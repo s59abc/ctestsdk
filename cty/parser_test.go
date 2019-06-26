@@ -28,7 +28,7 @@ func Test_parseCtyDatRecordErrorCases(t *testing.T) {
 		{
 			name: "tooShorRecord",
 			args: args{
-				ctyDatRecord: "Slovenia:                 15:  28:  EU: ",
+				ctyDatRecord: "SloveniaCtyDat:                 15:  28:  EU: ",
 			},
 			wantCtyDatList: nil,
 			wantErr:        true,
@@ -59,9 +59,9 @@ func Test_parseCtyDatRecordSlovenia(t *testing.T) {
 		wantErr        bool
 	}{
 		{
-			name: "Slovenia",
+			name: "SloveniaCtyDat",
 			args: args{
-				ctyDatRecord: testdata.Slovenia,
+				ctyDatRecord: testdata.SloveniaCtyDat,
 			},
 			wantDtaRecords: []Dta{
 				{
@@ -171,9 +171,9 @@ func Test_parseCtyDatRecordSweden(t *testing.T) {
 		wantErr        bool
 	}{
 		{
-			name: "Sweden",
+			name: "SwedenCtyDat",
 			args: args{
-				ctyDatRecord: testdata.Sweden,
+				ctyDatRecord: testdata.SwedenCtyDat,
 			},
 			wantCtyDatList: []Dta{
 				{
@@ -299,9 +299,9 @@ func Test_parseCtyDatRecordAfricanItaly(t *testing.T) {
 		wantErr        bool
 	}{
 		{
-			name: "AfricanItaly",
+			name: "AfricanItalyCtyDat",
 			args: args{
-				ctyDatRecord: testdata.AfricanItaly,
+				ctyDatRecord: testdata.AfricanItalyCtyDat,
 			},
 			wantCtyDatList: []Dta{
 				{
@@ -385,9 +385,9 @@ func Test_parseCtyDatRecordYemen(t *testing.T) {
 		wantErr        bool
 	}{
 		{
-			name: "Yemen",
+			name: "YemenCtyDat",
 			args: args{
-				ctyDatRecord: testdata.Yemen,
+				ctyDatRecord: testdata.YemenCtyDat,
 			},
 			wantCtyDatList: []Dta{
 				{
@@ -460,7 +460,7 @@ func Test_parseCtyDatRecordPeter1Island(t *testing.T) {
 		{
 			name: "Peter 1 Island",
 			args: args{
-				ctyDatRecord: testdata.Peter1Island,
+				ctyDatRecord: testdata.Peter1IslandCtyDat,
 			},
 			wantCtyDatList: []Dta{
 				{
@@ -518,9 +518,9 @@ func Test_parseCtyDatRecordBouvet(t *testing.T) {
 		wantErr        bool
 	}{
 		{
-			name: "Bouvet",
+			name: "BouvetCtyDat",
 			args: args{
-				ctyDatRecord: testdata.Bouvet,
+				ctyDatRecord: testdata.BouvetCtyDat,
 			},
 			wantCtyDatList: []Dta{
 				{
@@ -589,6 +589,315 @@ func Test_parseCtyDatRecordBouvet(t *testing.T) {
 			}
 			if !reflect.DeepEqual(gotCtyDatList, tt.wantCtyDatList) {
 				t.Errorf("parseCtyDatRecord() = %v, want %v", gotCtyDatList, tt.wantCtyDatList)
+			}
+		})
+	}
+}
+func Test_parseCtyDatRecordSloveniaCtyWtDat(t *testing.T) {
+	type args struct {
+		ctyDatRecord string
+	}
+	tests := []struct {
+		name           string
+		args           args
+		wantCtyDatList []Dta
+		wantErr        bool
+	}{
+		{
+			name: "Slovenia Cty Wt Mod",
+			args: args{
+				ctyDatRecord: testdata.SloveniaWtModDat,
+			},
+			wantCtyDatList: []Dta{
+				{
+					countryName:   "Slovenia",
+					primaryPrefix: "S5",
+					aliasPrefix:   "S5",
+					continent:     EU,
+					cqZone:        CQZONE15,
+					ituZone:       ITUZONE28,
+					latLon: geo.LatLonDeg{
+						Lat: 46.00,
+						Lon: -14.00,
+					},
+					timeOffset: "-1.0",
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotCtyDatList, err := parseCtyDatRecord(tt.args.ctyDatRecord)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("parseCtyDatRecord() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotCtyDatList, tt.wantCtyDatList) {
+				t.Errorf("parseCtyDatRecord() = %v, want %v", gotCtyDatList, tt.wantCtyDatList)
+			}
+		})
+	}
+}
+
+func Test_parseCtyDatRecordSwedenCtyWtDat(t *testing.T) {
+	type args struct {
+		ctyDatRecord string
+	}
+	tests := []struct {
+		name           string
+		args           args
+		wantCtyDatList []Dta
+		wantErr        bool
+	}{
+		{
+			name: "Sweden Cty Wt Mod",
+			args: args{
+				ctyDatRecord: testdata.SwedenWtModDat,
+			},
+			wantCtyDatList: []Dta{
+				{
+					countryName:   "Sweden",
+					primaryPrefix: "SM",
+					aliasPrefix:   "SM",
+					continent:     EU,
+					cqZone:        CQZONE14,
+					ituZone:       ITUZONE18,
+					latLon: geo.LatLonDeg{
+						Lat: 61.20,
+						Lon: -14.57,
+					},
+					timeOffset: "-1.0",
+				},
+
+				{
+					countryName:   "Sweden",
+					primaryPrefix: "SM",
+					aliasPrefix:   "7S",
+					continent:     EU,
+					cqZone:        CQZONE14,
+					ituZone:       ITUZONE18,
+					latLon: geo.LatLonDeg{
+						Lat: 61.20,
+						Lon: -14.57,
+					},
+					timeOffset: "-1.0",
+				},
+				{
+					countryName:   "Sweden",
+					primaryPrefix: "SM",
+					aliasPrefix:   "SM7",
+					continent:     EU,
+					cqZone:        CQZONE14,
+					ituZone:       ITUZONE18,
+					latLon: geo.LatLonDeg{
+						Lat: 55.58,
+						Lon: -13.10,
+					},
+					timeOffset: "-1.0",
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotCtyDatList, err := parseCtyDatRecord(tt.args.ctyDatRecord)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("parseCtyDatRecord() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotCtyDatList, tt.wantCtyDatList) {
+				t.Errorf("parseCtyDatRecord() = %v, want %v", gotCtyDatList, tt.wantCtyDatList)
+			}
+		})
+	}
+}
+
+func Test_parseCtyDatRecordUnitedStatesCtyWtDat(t *testing.T) {
+	type args struct {
+		ctyDatRecord string
+	}
+	tests := []struct {
+		name           string
+		args           args
+		wantCtyDatList []Dta
+		wantErr        bool
+	}{
+		{
+			name: "USA Cty Wt Mod",
+			args: args{
+				ctyDatRecord: testdata.UnitedStatesWtModDat,
+			},
+			wantCtyDatList: []Dta{
+				{
+					countryName:   "United States",
+					primaryPrefix: "K",
+					aliasPrefix:   "K",
+					continent:     NA,
+					cqZone:        CQZONE5,
+					ituZone:       ITUZONE8,
+					latLon: geo.LatLonDeg{
+						Lat: 37.53,
+						Lon: 91.67,
+					},
+					timeOffset: "5.0",
+				},
+
+				{
+					countryName:   "United States",
+					primaryPrefix: "K",
+					aliasPrefix:   "AA",
+					continent:     NA,
+					cqZone:        CQZONE5,
+					ituZone:       ITUZONE8,
+					latLon: geo.LatLonDeg{
+						Lat: 37.53,
+						Lon: 91.67,
+					},
+					timeOffset: "5.0",
+				},
+
+				{
+					countryName:   "United States",
+					primaryPrefix: "K",
+					aliasPrefix:   "K5ZD",
+					continent:     NA,
+					cqZone:        CQZONE5,
+					ituZone:       ITUZONE8,
+					latLon: geo.LatLonDeg{
+						Lat: 42.27,
+						Lon: 71.37,
+					},
+					timeOffset: "5.0",
+				},
+
+				{
+					countryName:   "United States",
+					primaryPrefix: "K",
+					aliasPrefix:   "AD1C",
+					continent:     NA,
+					cqZone:        CQZONE4,
+					ituZone:       ITUZONE7,
+					latLon: geo.LatLonDeg{
+						Lat: 39.52,
+						Lon: 105.20,
+					},
+					timeOffset: "6.0",
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotCtyDatList, err := parseCtyDatRecord(tt.args.ctyDatRecord)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("parseCtyDatRecord() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotCtyDatList, tt.wantCtyDatList) {
+				t.Errorf("parseCtyDatRecord() = %v, want %v", gotCtyDatList, tt.wantCtyDatList)
+			}
+		})
+	}
+}
+
+func Test_removeComments(t *testing.T) {
+	type args struct {
+		ctyDatRecords string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "comments-1",
+			args: args{
+				ctyDatRecords: testdata.TestInput1,
+			},
+			want: testdata.TestOutput1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := removeComments(tt.args.ctyDatRecords); got != tt.want {
+				t.Errorf("removeComments() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_parseCtyDatRecordsOld(t *testing.T) {
+	type args struct {
+		ctyDatRecords string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "CtyDatRecordsOld",
+			args: args{
+				ctyDatRecords: testdata.CtyDatRecords,
+			},
+			wantErr: false,
+		},
+		{
+			name: "CtyWtModDatRecordsOld",
+			args: args{
+				ctyDatRecords: testdata.CtyWtModDatRecords,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := parseCtyDatRecordsOld(tt.args.ctyDatRecords); (err != nil) != tt.wantErr {
+				t.Errorf("parseCtyDatRecordsOld() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func Test_parseCtyDatRecords(t *testing.T) {
+	type args struct {
+		ctyDatRecords string
+	}
+	tests := []struct {
+		name     string
+		args     args
+		wantSize int
+		wantErr  bool
+	}{
+		{
+			name: "CtyDatRecords",
+			args: args{
+				ctyDatRecords: testdata.CtyDatRecords,
+			},
+			wantSize: 21395,
+			wantErr:  false,
+		},
+		{
+			name: "CtyWtModDatRecords",
+			args: args{
+				ctyDatRecords: testdata.CtyWtModDatRecords,
+			},
+			wantSize: 27025,
+			wantErr:  false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotSize, err := parseCtyDatRecords(tt.args.ctyDatRecords)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("parseCtyDatRecords() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if gotSize != tt.wantSize {
+				t.Errorf("parseCtyDatRecords() = %v, want %v", gotSize, tt.wantSize)
 			}
 		})
 	}

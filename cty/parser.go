@@ -1,6 +1,7 @@
 package cty
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"regexp"
@@ -22,6 +23,9 @@ var regexPfx *regexp.Regexp = regexp.MustCompile(`[0-9A-Za-z/]{1,}`)
 var regexOverrideCqZone *regexp.Regexp = regexp.MustCompile(`\([0-9]{1,2}\)`)
 var regexOverrideItuZone *regexp.Regexp = regexp.MustCompile(`[([0-9]{1,2}]`)
 var regexZone *regexp.Regexp = regexp.MustCompile(`[0-9]{1,2}`)
+var regexOverrideLatLon *regexp.Regexp = regexp.MustCompile(`<[0-9-]+\.[0-9]+/[0-9-]+\.[0-9]+>`)
+var regexOverrideTimeOffset *regexp.Regexp = regexp.MustCompile(`~[0-9-.]+~`)
+var regexIsComment *regexp.Regexp = regexp.MustCompile(`^#`)
 
 // this function parse cty dat record, record format is defined at
 // https://www.country-files.com/cty-dat-format/
@@ -50,7 +54,7 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	// Eight field delimiters are expected. Let's count them
 	fields := strings.Split(primaryRecord, ":")
 	if len(fields) != 9 {
-		return nil, wrongFormattedRecord("Unexpected number of fields: "+strconv.Itoa(len(fields)), ctyDatRecord)
+		return []Dta{}, wrongFormattedRecord("Unexpected number of fields: "+strconv.Itoa(len(fields)), ctyDatRecord)
 	}
 
 	//COLUMN	LENGTH	DESCRIPTION
@@ -61,7 +65,7 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	//27	5	CQ Zone
 	if cq, err := strconv.Atoi(strings.TrimSpace(fields[1])); err != nil {
 		//TODO: test
-		return nil, wrongFormattedRecord("Wrong formatted CQ Zone: "+fields[1], ctyDatRecord)
+		return []Dta{}, wrongFormattedRecord("Wrong formatted CQ Zone: "+fields[1], ctyDatRecord)
 	} else {
 		primaryDta.cqZone = cqzoneEnum(cq)
 	}
@@ -69,7 +73,7 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	//32	5	ITU Zone
 	if itu, err := strconv.Atoi(strings.TrimSpace(fields[2])); err != nil {
 		//TODO: test
-		return nil, wrongFormattedRecord("Wrong formatted ITU Zone: "+fields[2], ctyDatRecord)
+		return []Dta{}, wrongFormattedRecord("Wrong formatted ITU Zone: "+fields[2], ctyDatRecord)
 	} else {
 		primaryDta.ituZone = ituzoneEnum(itu)
 	}
@@ -77,7 +81,7 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	//37	5	2-letter continent abbreviation
 	if c, err := continent(strings.TrimSpace(fields[3])); err != nil {
 		//TODO: test
-		return nil, wrongFormattedRecord(err.Error(), ctyDatRecord)
+		return []Dta{}, wrongFormattedRecord(err.Error(), ctyDatRecord)
 	} else {
 		primaryDta.continent = c
 	}
@@ -87,12 +91,12 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	lat, err := strconv.ParseFloat(strings.TrimSpace(fields[4]), 64)
 	if err != nil {
 		//TODO: test
-		return nil, wrongFormattedRecord("Wrong formatted latitude: "+fields[4], ctyDatRecord)
+		return []Dta{}, wrongFormattedRecord("Wrong formatted latitude: "+fields[4], ctyDatRecord)
 	}
 	lon, err := strconv.ParseFloat(strings.TrimSpace(fields[5]), 64)
 	if err != nil {
 		//TODO: test
-		return nil, wrongFormattedRecord("Wrong formatted longitude: "+fields[5], ctyDatRecord)
+		return []Dta{}, wrongFormattedRecord("Wrong formatted longitude: "+fields[5], ctyDatRecord)
 	}
 	primaryDta.latLon.Lat = lat
 	primaryDta.latLon.Lon = lon
@@ -128,31 +132,53 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 				if cqZone != "" {
 					if i, e := strconv.Atoi(cqZone); e != nil {
 						//TODO: test
-						return nil, wrongFormattedRecord("wrong formatted override CQ Zone: "+cqZone+" "+e.Error(), ctyDatRecord)
+						return []Dta{}, wrongFormattedRecord("wrong formatted override CQ Zone: "+cqZone+" "+e.Error(), ctyDatRecord)
 					} else {
 						aliasDta.cqZone = cqzoneEnum(i)
 					}
 				} else {
 					//TODO: test
-					return nil, wrongFormattedRecord("wrong formatted override CQ Zone: "+cqZone, ctyDatRecord)
+					return []Dta{}, wrongFormattedRecord("wrong formatted override CQ Zone: "+cqZone, ctyDatRecord)
 				}
 			}
 			//
-			// check for override cq zone
+			// check for override itu zone
 			overrideItuZone := regexOverrideItuZone.FindString(v)
 			if overrideItuZone != "" {
 				ituZone := regexZone.FindString(overrideItuZone)
 				if ituZone != "" {
 					if i, e := strconv.Atoi(ituZone); e != nil {
 						//TODO: test
-						return nil, wrongFormattedRecord("wrong formatted override ITU Zone: "+ituZone+" "+e.Error(), ctyDatRecord)
+						return []Dta{}, wrongFormattedRecord("wrong formatted override ITU Zone: "+ituZone+" "+e.Error(), ctyDatRecord)
 					} else {
 						aliasDta.ituZone = ituzoneEnum(i)
 					}
 				} else {
 					//TODO: test
-					return nil, wrongFormattedRecord("wrong formatted override ITU Zone: "+ituZone, ctyDatRecord)
+					return []Dta{}, wrongFormattedRecord("wrong formatted override ITU Zone: "+ituZone, ctyDatRecord)
 				}
+			}
+			//
+			// check for override lat lon
+			overrideLatLon := regexOverrideLatLon.FindString(v)
+			if overrideLatLon != "" {
+				latLonSS := strings.Split(overrideLatLon, "/")
+				latS := latLonSS[0][1:]
+				lonS := latLonSS[1][:len(latLonSS[1])-1]
+				lat, errLat := strconv.ParseFloat(latS, 64)
+				lon, errLon := strconv.ParseFloat(lonS, 64)
+				if errLat != nil || errLon != nil {
+					return []Dta{}, wrongFormattedRecord("wrong formatted override Latitude/Longitude: "+overrideLatLon, ctyDatRecord)
+				} else {
+					aliasDta.latLon.Lat = lat
+					aliasDta.latLon.Lon = lon
+				}
+			}
+			//
+			// Override local time offset from GMT
+			overrideTimeOffset := regexOverrideTimeOffset.FindString(v)
+			if overrideTimeOffset != "" {
+				aliasDta.timeOffset = strings.Trim(overrideTimeOffset, "~")
 			}
 
 			if idx >= cap(ctyDatList) {
@@ -166,4 +192,67 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	}
 
 	return ctyDatList, nil
+}
+
+// this function removes comments
+func removeComments(ctyDatRecords string) string {
+	//first we have to check if ctyDatRecords has a comments
+	if strings.Contains(ctyDatRecords, "#") {
+		// Normalize \r\n (windows) and \r (mac) into \n (unix)
+		if strings.Contains(ctyDatRecords, "\r") {
+			b := bytes.Replace([]byte(ctyDatRecords), []byte{13, 10}, []byte{10}, -1)
+			b = bytes.Replace(b, []byte{13}, []byte{10}, -1)
+			ctyDatRecords = string(b)
+		}
+		// here we have records normalized to unix format
+		lines := strings.Split(ctyDatRecords, "\n")
+		slice := make([]string, 0, len(lines)) //container for slice without comments, just a payload
+		for _, v := range lines {
+			if !regexIsComment.MatchString(v) {
+				slice = append(slice, v)
+			}
+		}
+		//Joining a slice of strings is faster that using +
+		ctyDatRecords = strings.Join(slice, "\n")
+	}
+
+	return ctyDatRecords
+}
+
+func parseCtyDatRecordsOld(ctyDatRecords string) (err error) {
+	ctyDatRecords = removeComments(ctyDatRecords)
+	c := 0
+	records := strings.Split(ctyDatRecords, ";")
+	for _, v := range records {
+		if len(v) > 10 {
+			v, e := parseCtyDatRecord(v)
+			if e != nil {
+				return e
+			} else {
+				c += len(v)
+			}
+		}
+	}
+	fmt.Println(c)
+
+	return nil
+}
+
+func parseCtyDatRecords(ctyDatRecords string) (size int, err error) {
+	ctyDatRecords = removeComments(ctyDatRecords)
+	size = 0
+	records := strings.Split(ctyDatRecords, ";")
+	for _, v := range records {
+		if len(v) > 10 {
+			v, e := parseCtyDatRecord(v)
+			if e != nil {
+				return size, e
+			} else {
+				size += len(v)
+			}
+		}
+	}
+	fmt.Println(size)
+
+	return size, nil
 }
