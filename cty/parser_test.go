@@ -877,7 +877,7 @@ func Test_parseCtyDatRecords(t *testing.T) {
 			args: args{
 				ctyDatRecords: testdata.CtyDatRecords,
 			},
-			wantSize: 21395,
+			wantSize: 21314,
 			wantErr:  false,
 		},
 		{
@@ -885,7 +885,7 @@ func Test_parseCtyDatRecords(t *testing.T) {
 			args: args{
 				ctyDatRecords: testdata.CtyWtModDatRecords,
 			},
-			wantSize: 27025,
+			wantSize: 26991,
 			wantErr:  false,
 		},
 	}
@@ -898,6 +898,47 @@ func Test_parseCtyDatRecords(t *testing.T) {
 			}
 			if gotSize != tt.wantSize {
 				t.Errorf("parseCtyDatRecords() = %v, want %v", gotSize, tt.wantSize)
+			}
+		})
+	}
+}
+
+func Test_parseCtyDatRecordsGo(t *testing.T) {
+	type args struct {
+		ctyDatRecords string
+	}
+	tests := []struct {
+		name      string
+		args      args
+		wantMsize int
+		wantErr   bool
+	}{
+		{
+			name: "CtyDatRecords",
+			args: args{
+				ctyDatRecords: testdata.CtyDatRecords,
+			},
+			wantMsize: 21314,
+			wantErr:   false,
+		},
+		{
+			name: "CtyWtModDatRecords",
+			args: args{
+				ctyDatRecords: testdata.CtyWtModDatRecords,
+			},
+			wantMsize: 26991,
+			wantErr:   false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotMsize, err := parseCtyDatRecordsGo(tt.args.ctyDatRecords)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("parseCtyDatRecordsGo() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if gotMsize != tt.wantMsize {
+				t.Errorf("parseCtyDatRecordsGo() = %v, want %v", gotMsize, tt.wantMsize)
 			}
 		})
 	}

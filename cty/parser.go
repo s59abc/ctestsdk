@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -238,21 +239,74 @@ func parseCtyDatRecordsOld(ctyDatRecords string) (err error) {
 	return nil
 }
 
-func parseCtyDatRecords(ctyDatRecords string) (size int, err error) {
+func parseCtyDatRecords(ctyDatRecords string) (msize int, err error) {
+	m := make(map[string]Dta)
 	ctyDatRecords = removeComments(ctyDatRecords)
-	size = 0
 	records := strings.Split(ctyDatRecords, ";")
 	for _, v := range records {
 		if len(v) > 10 {
 			v, e := parseCtyDatRecord(v)
 			if e != nil {
-				return size, e
+				return len(m), e
 			} else {
-				size += len(v)
+				for _, d := range v {
+					//if d.aliasPrefix == "EF6" {
+					//	fmt.Println("EF6")
+					//}
+					if _, exists := m[d.aliasPrefix]; exists {
+						//						fmt.Println("Duplicated Alias! " + d.aliasPrefix)
+						//						return len(m), errors.New("Alias Already Exists! " + d.aliasPrefix)
+					} else {
+						m[d.aliasPrefix] = d
+					}
+
+				}
 			}
 		}
 	}
-	fmt.Println(size)
+	fmt.Println(len(m))
 
-	return size, nil
+	return len(m), nil
+}
+
+func parseCtyDatRecordsGo(ctyDatRecords string) (msize int, err error) {
+	m := make(map[string]Dta)
+	ctyDatRecords = removeComments(ctyDatRecords)
+	records := strings.Split(ctyDatRecords, ";")
+
+	numberOfRecords := len(records)
+	ch := make(chan []Dta, numberOfRecords)
+
+	for _, rec := range records {
+		if len(rec) > 10 {
+			go func(r string) {
+				v, e := parseCtyDatRecord(r)
+				if e != nil {
+					fmt.Println(r)
+					fmt.Println(e)
+					os.Exit(1)
+				}
+				ch <- v
+			}(rec)
+		} else {
+			ch <- []Dta{}
+		}
+	}
+
+	j := numberOfRecords
+	for j > 0 {
+		data := <-ch
+		for _, item := range data {
+			m[item.aliasPrefix] = item
+		}
+		j--
+	}
+
+	//fmt.Println("-----------------------")
+	//fmt.Println(len(m))
+	//for k,v := range m {
+	//	fmt.Println(k, v)
+	//}
+
+	return len(m), nil
 }
