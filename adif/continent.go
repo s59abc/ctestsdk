@@ -5,7 +5,8 @@ import "errors"
 type ContinentEnum int
 
 const (
-	NA ContinentEnum = iota
+	UN ContinentEnum = iota //UN Unknown
+	NA
 	SA
 	EU
 	AF
