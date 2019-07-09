@@ -1,6 +1,8 @@
-package freq
+package adif
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestGetBand(t *testing.T) {
 	type args struct {

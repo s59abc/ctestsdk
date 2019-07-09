@@ -1,13 +1,28 @@
 package spot
 
 import (
-	"ctestsdk/cty"
-	"ctestsdk/freq"
+	"ctestsdk/adif"
 	"ctestsdk/geo"
 	"errors"
 	"fmt"
 	"regexp"
 )
+
+type CtyDta struct {
+	CountryName   string //Country Name
+	PrimaryPrefix string
+	AliasPrefix   string             //Primary or Alias DXCC Prefix without optional * indicator
+	Continent     adif.ContinentEnum //2-letter Continent abbreviation
+	CqZone        adif.CqzoneEnum    //CQ Zone
+	ItuZone       adif.ItuzoneEnum   //ITU Zone
+	LatLon        geo.LatLonDeg      //Latitude in degrees, + for North; Longitude in degrees, + for West
+	TimeOffset    string             //Local time offset from GMT
+}
+
+func (a CtyDta) String() string {
+	return fmt.Sprintf("CountryName=%s, PrimaryPrefix=%s, AliasPrefix=%s, Continent=%s, CqZone=%d, ItuZone=%d, %s, TimeOffset=%s", a.CountryName, a.PrimaryPrefix, a.AliasPrefix, a.Continent.String(), a.CqZone, a.ItuZone, a.LatLon.String(), a.TimeOffset)
+
+}
 
 type Data struct {
 	dx       string
@@ -18,12 +33,12 @@ type Data struct {
 	// TODO;
 	Source   string //Source (origin) of the spot
 	IsRbn    bool
-	BAND     freq.Band
-	MODE     Mode
+	BAND     adif.Band
+	MODE     adif.Mode
 	DxQTH    geo.QTH
-	DxCtyDta cty.Dta
+	DxCtyDta CtyDta
 	DeQTH    geo.QTH
-	DeCtyDta cty.Dta
+	DeCtyDta CtyDta
 }
 
 var ignore error = errors.New("it is not a spot, ignore it")
@@ -74,7 +89,7 @@ func NewSpot(rawData string, source string) (Data, error) {
 
 		//freq, band
 		data.freq = sss[1]
-		if b, e := freq.GetBand(data.freq); e == nil {
+		if b, e := adif.GetBand(data.freq); e == nil {
 			data.BAND = b
 		}
 		//		BAND, _ = freq.GetBand(data.freq)

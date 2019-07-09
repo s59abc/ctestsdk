@@ -1,4 +1,4 @@
-package spot
+package adif
 
 import (
 	"errors"

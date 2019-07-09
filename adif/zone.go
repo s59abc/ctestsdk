@@ -1,10 +1,10 @@
-package cty
+package adif
 
-type cqzoneEnum int
-type ituzoneEnum int
+type CqzoneEnum int
+type ItuzoneEnum int
 
 const (
-	CQZONEUnknown cqzoneEnum = iota
+	CQZONEUnknown CqzoneEnum = iota
 
 	CQZONE1
 	CQZONE2
@@ -53,7 +53,7 @@ const (
 )
 
 const (
-	ITUZONEUnknown ituzoneEnum = iota
+	ITUZONEUnknown ItuzoneEnum = iota
 
 	ITUZONE1
 	ITUZONE2

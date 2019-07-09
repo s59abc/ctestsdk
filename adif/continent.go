@@ -1,11 +1,11 @@
-package cty
+package adif
 
 import "errors"
 
-type continentEnum int
+type ContinentEnum int
 
 const (
-	NA continentEnum = iota
+	NA ContinentEnum = iota
 	SA
 	EU
 	AF
@@ -14,7 +14,7 @@ const (
 	AN
 )
 
-func continent(continentAbbreviation string) (continentEnum, error) {
+func Continent(continentAbbreviation string) (ContinentEnum, error) {
 	switch continentAbbreviation {
 	case "EU":
 		return EU, nil
@@ -36,7 +36,7 @@ func continent(continentAbbreviation string) (continentEnum, error) {
 
 }
 
-func (a continentEnum) String() string {
+func (a ContinentEnum) String() string {
 	switch a {
 	case EU:
 		return "EU"

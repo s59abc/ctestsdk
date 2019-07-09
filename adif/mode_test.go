@@ -1,6 +1,8 @@
-package spot
+package adif
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestGetMode(t *testing.T) {
 	type args struct {

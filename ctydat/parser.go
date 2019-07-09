@@ -1,7 +1,9 @@
-package cty
+package ctydat
 
 import (
 	"bytes"
+	"ctestsdk/adif"
+	"ctestsdk/spot"
 	"errors"
 	"fmt"
 	"os"
@@ -30,7 +32,7 @@ var regexIsComment *regexp.Regexp = regexp.MustCompile(`^#`)
 
 // this function parse cty dat record, record format is defined at
 // https://www.country-files.com/cty-dat-format/
-func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
+func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []spot.CtyDta, err error) {
 	if len(ctyDatRecord) < 76 {
 		return nil, wrongFormattedRecord("", ctyDatRecord)
 	}
@@ -39,8 +41,8 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	primaryRecord := ctyDatRecord[:76]
 	aliasRecords := strings.Split(ctyDatRecord[76:], ",")
 
-	ctyDatList = make([]Dta, len(aliasRecords))
-	primaryDta := Dta{}
+	ctyDatList = make([]spot.CtyDta, len(aliasRecords))
+	primaryDta := spot.CtyDta{}
 
 	//
 	// Example of ctyDatRecord
@@ -55,36 +57,36 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	// Eight field delimiters are expected. Let's count them
 	fields := strings.Split(primaryRecord, ":")
 	if len(fields) != 9 {
-		return []Dta{}, wrongFormattedRecord("Unexpected number of fields: "+strconv.Itoa(len(fields)), ctyDatRecord)
+		return []spot.CtyDta{}, wrongFormattedRecord("Unexpected number of fields: "+strconv.Itoa(len(fields)), ctyDatRecord)
 	}
 
 	//COLUMN	LENGTH	DESCRIPTION
 	//
 	//1	26	Country Name
-	primaryDta.countryName = strings.TrimSpace(fields[0])
+	primaryDta.CountryName = strings.TrimSpace(fields[0])
 	//
 	//27	5	CQ Zone
 	if cq, err := strconv.Atoi(strings.TrimSpace(fields[1])); err != nil {
 		//TODO: test
-		return []Dta{}, wrongFormattedRecord("Wrong formatted CQ Zone: "+fields[1], ctyDatRecord)
+		return []spot.CtyDta{}, wrongFormattedRecord("Wrong formatted CQ Zone: "+fields[1], ctyDatRecord)
 	} else {
-		primaryDta.cqZone = cqzoneEnum(cq)
+		primaryDta.CqZone = adif.CqzoneEnum(cq)
 	}
 	//
 	//32	5	ITU Zone
 	if itu, err := strconv.Atoi(strings.TrimSpace(fields[2])); err != nil {
 		//TODO: test
-		return []Dta{}, wrongFormattedRecord("Wrong formatted ITU Zone: "+fields[2], ctyDatRecord)
+		return []spot.CtyDta{}, wrongFormattedRecord("Wrong formatted ITU Zone: "+fields[2], ctyDatRecord)
 	} else {
-		primaryDta.ituZone = ituzoneEnum(itu)
+		primaryDta.ItuZone = adif.ItuzoneEnum(itu)
 	}
 	//
 	//37	5	2-letter continent abbreviation
-	if c, err := continent(strings.TrimSpace(fields[3])); err != nil {
+	if c, err := adif.Continent(strings.TrimSpace(fields[3])); err != nil {
 		//TODO: test
-		return []Dta{}, wrongFormattedRecord(err.Error(), ctyDatRecord)
+		return []spot.CtyDta{}, wrongFormattedRecord(err.Error(), ctyDatRecord)
 	} else {
-		primaryDta.continent = c
+		primaryDta.Continent = c
 	}
 	//
 	//42	9	Latitude in degrees, + for North
@@ -92,18 +94,18 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	lat, err := strconv.ParseFloat(strings.TrimSpace(fields[4]), 64)
 	if err != nil {
 		//TODO: test
-		return []Dta{}, wrongFormattedRecord("Wrong formatted latitude: "+fields[4], ctyDatRecord)
+		return []spot.CtyDta{}, wrongFormattedRecord("Wrong formatted latitude: "+fields[4], ctyDatRecord)
 	}
 	lon, err := strconv.ParseFloat(strings.TrimSpace(fields[5]), 64)
 	if err != nil {
 		//TODO: test
-		return []Dta{}, wrongFormattedRecord("Wrong formatted longitude: "+fields[5], ctyDatRecord)
+		return []spot.CtyDta{}, wrongFormattedRecord("Wrong formatted longitude: "+fields[5], ctyDatRecord)
 	}
-	primaryDta.latLon.Lat = lat
-	primaryDta.latLon.Lon = lon
+	primaryDta.LatLon.Lat = lat
+	primaryDta.LatLon.Lon = lon
 	//
 	//61	9	Local time offset from GMT
-	primaryDta.timeOffset = strings.TrimSpace(fields[6])
+	primaryDta.TimeOffset = strings.TrimSpace(fields[6])
 	//
 	//70	6	Primary DXCC Prefix
 	// (A “*” preceding this aliasPrefix indicates that the country is on the DARC WAEDC ctyDatList, and counts in CQ-sponsored contests, but not ARRL-sponsored contests).
@@ -112,8 +114,8 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 	if len(primaryPfx) > 1 && primaryPfx[0] == byte('*') {
 		primaryPfx = primaryPfx[1:]
 	}
-	primaryDta.primaryPrefix = primaryPfx
-	primaryDta.aliasPrefix = primaryPfx
+	primaryDta.PrimaryPrefix = primaryPfx
+	primaryDta.AliasPrefix = primaryPfx
 	//
 	ctyDatList[0] = primaryDta
 	//
@@ -124,7 +126,7 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 		pfx := regexPfx.FindString(v)
 		if pfx != "" && pfx != primaryPfx { //Alias DXCC prefixes always include the primary one
 			aliasDta := primaryDta
-			aliasDta.aliasPrefix = pfx
+			aliasDta.AliasPrefix = pfx
 			//
 			// check for override cq zone
 			overrideCqZone := regexOverrideCqZone.FindString(v)
@@ -133,13 +135,13 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 				if cqZone != "" {
 					if i, e := strconv.Atoi(cqZone); e != nil {
 						//TODO: test
-						return []Dta{}, wrongFormattedRecord("wrong formatted override CQ Zone: "+cqZone+" "+e.Error(), ctyDatRecord)
+						return []spot.CtyDta{}, wrongFormattedRecord("wrong formatted override CQ Zone: "+cqZone+" "+e.Error(), ctyDatRecord)
 					} else {
-						aliasDta.cqZone = cqzoneEnum(i)
+						aliasDta.CqZone = adif.CqzoneEnum(i)
 					}
 				} else {
 					//TODO: test
-					return []Dta{}, wrongFormattedRecord("wrong formatted override CQ Zone: "+cqZone, ctyDatRecord)
+					return []spot.CtyDta{}, wrongFormattedRecord("wrong formatted override CQ Zone: "+cqZone, ctyDatRecord)
 				}
 			}
 			//
@@ -150,13 +152,13 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 				if ituZone != "" {
 					if i, e := strconv.Atoi(ituZone); e != nil {
 						//TODO: test
-						return []Dta{}, wrongFormattedRecord("wrong formatted override ITU Zone: "+ituZone+" "+e.Error(), ctyDatRecord)
+						return []spot.CtyDta{}, wrongFormattedRecord("wrong formatted override ITU Zone: "+ituZone+" "+e.Error(), ctyDatRecord)
 					} else {
-						aliasDta.ituZone = ituzoneEnum(i)
+						aliasDta.ItuZone = adif.ItuzoneEnum(i)
 					}
 				} else {
 					//TODO: test
-					return []Dta{}, wrongFormattedRecord("wrong formatted override ITU Zone: "+ituZone, ctyDatRecord)
+					return []spot.CtyDta{}, wrongFormattedRecord("wrong formatted override ITU Zone: "+ituZone, ctyDatRecord)
 				}
 			}
 			//
@@ -169,17 +171,17 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []Dta, err error) {
 				lat, errLat := strconv.ParseFloat(latS, 64)
 				lon, errLon := strconv.ParseFloat(lonS, 64)
 				if errLat != nil || errLon != nil {
-					return []Dta{}, wrongFormattedRecord("wrong formatted override Latitude/Longitude: "+overrideLatLon, ctyDatRecord)
+					return []spot.CtyDta{}, wrongFormattedRecord("wrong formatted override Latitude/Longitude: "+overrideLatLon, ctyDatRecord)
 				} else {
-					aliasDta.latLon.Lat = lat
-					aliasDta.latLon.Lon = lon
+					aliasDta.LatLon.Lat = lat
+					aliasDta.LatLon.Lon = lon
 				}
 			}
 			//
 			// Override local time offset from GMT
 			overrideTimeOffset := regexOverrideTimeOffset.FindString(v)
 			if overrideTimeOffset != "" {
-				aliasDta.timeOffset = strings.Trim(overrideTimeOffset, "~")
+				aliasDta.TimeOffset = strings.Trim(overrideTimeOffset, "~")
 			}
 
 			if idx >= cap(ctyDatList) {
@@ -220,62 +222,18 @@ func removeComments(ctyDatRecords string) string {
 	return ctyDatRecords
 }
 
-func parseCtyDatRecordsOld(ctyDatRecords string) (err error) {
-	ctyDatRecords = removeComments(ctyDatRecords)
-	c := 0
-	records := strings.Split(ctyDatRecords, ";")
-	for _, v := range records {
-		if len(v) > 10 {
-			v, e := parseCtyDatRecord(v)
-			if e != nil {
-				return e
-			} else {
-				c += len(v)
-			}
-		}
-	}
-	fmt.Println(c)
-
-	return nil
+func parseCtyDatRecordsForTest(ctyDatRecords string) (msize int, err error) {
+	m, e := parseCtyDatRecords(ctyDatRecords)
+	return len(m), e
 }
 
-func parseCtyDatRecords(ctyDatRecords string) (msize int, err error) {
-	m := make(map[string]Dta)
-	ctyDatRecords = removeComments(ctyDatRecords)
-	records := strings.Split(ctyDatRecords, ";")
-	for _, v := range records {
-		if len(v) > 10 {
-			v, e := parseCtyDatRecord(v)
-			if e != nil {
-				return len(m), e
-			} else {
-				for _, d := range v {
-					//if d.aliasPrefix == "EF6" {
-					//	fmt.Println("EF6")
-					//}
-					if _, exists := m[d.aliasPrefix]; exists {
-						//						fmt.Println("Duplicated Alias! " + d.aliasPrefix)
-						//						return len(m), errors.New("Alias Already Exists! " + d.aliasPrefix)
-					} else {
-						m[d.aliasPrefix] = d
-					}
-
-				}
-			}
-		}
-	}
-	fmt.Println(len(m))
-
-	return len(m), nil
-}
-
-func parseCtyDatRecordsGo(ctyDatRecords string) (msize int, err error) {
-	m := make(map[string]Dta)
+func parseCtyDatRecords(ctyDatRecords string) (m map[string]spot.CtyDta, err error) {
+	m = make(map[string]spot.CtyDta)
 	ctyDatRecords = removeComments(ctyDatRecords)
 	records := strings.Split(ctyDatRecords, ";")
 
 	numberOfRecords := len(records)
-	ch := make(chan []Dta, numberOfRecords)
+	ch := make(chan []spot.CtyDta, numberOfRecords)
 
 	for _, rec := range records {
 		if len(rec) > 10 {
@@ -289,7 +247,7 @@ func parseCtyDatRecordsGo(ctyDatRecords string) (msize int, err error) {
 				ch <- v
 			}(rec)
 		} else {
-			ch <- []Dta{}
+			ch <- []spot.CtyDta{}
 		}
 	}
 
@@ -297,16 +255,10 @@ func parseCtyDatRecordsGo(ctyDatRecords string) (msize int, err error) {
 	for j > 0 {
 		data := <-ch
 		for _, item := range data {
-			m[item.aliasPrefix] = item
+			m[item.AliasPrefix] = item
 		}
 		j--
 	}
 
-	//fmt.Println("-----------------------")
-	//fmt.Println(len(m))
-	//for k,v := range m {
-	//	fmt.Println(k, v)
-	//}
-
-	return len(m), nil
+	return m, nil
 }

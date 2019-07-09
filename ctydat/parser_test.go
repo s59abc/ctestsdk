@@ -1,7 +1,9 @@
-package cty
+package ctydat
 
 import (
+	"ctestsdk/adif"
 	"ctestsdk/geo"
+	"ctestsdk/spot"
 	"ctestsdk/testdata"
 	"reflect"
 	"testing"
@@ -14,7 +16,7 @@ func Test_parseCtyDatRecordErrorCases(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		wantCtyDatList []Dta
+		wantCtyDatList []spot.CtyDta
 		wantErr        bool
 	}{
 		{
@@ -55,7 +57,7 @@ func Test_parseCtyDatRecordSlovenia(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		wantDtaRecords []Dta
+		wantDtaRecords []spot.CtyDta
 		wantErr        bool
 	}{
 		{
@@ -63,84 +65,84 @@ func Test_parseCtyDatRecordSlovenia(t *testing.T) {
 			args: args{
 				ctyDatRecord: testdata.SloveniaCtyDat,
 			},
-			wantDtaRecords: []Dta{
+			wantDtaRecords: []spot.CtyDta{
 				{
-					countryName:   "Slovenia",
-					primaryPrefix: "S5",
-					aliasPrefix:   "S5",
-					continent:     EU,
-					cqZone:        CQZONE15,
-					ituZone:       ITUZONE28,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Slovenia",
+					PrimaryPrefix: "S5",
+					AliasPrefix:   "S5",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE15,
+					ItuZone:       adif.ITUZONE28,
+					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
 						Lon: -14.0,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Slovenia",
-					primaryPrefix: "S5",
-					aliasPrefix:   "S51LGT/LH",
-					continent:     EU,
-					cqZone:        CQZONE15,
-					ituZone:       ITUZONE28,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Slovenia",
+					PrimaryPrefix: "S5",
+					AliasPrefix:   "S51LGT/LH",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE15,
+					ItuZone:       adif.ITUZONE28,
+					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
 						Lon: -14.0,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Slovenia",
-					primaryPrefix: "S5",
-					aliasPrefix:   "S52AL/YL",
-					continent:     EU,
-					cqZone:        CQZONE15,
-					ituZone:       ITUZONE28,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Slovenia",
+					PrimaryPrefix: "S5",
+					AliasPrefix:   "S52AL/YL",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE15,
+					ItuZone:       adif.ITUZONE28,
+					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
 						Lon: -14.0,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Slovenia",
-					primaryPrefix: "S5",
-					aliasPrefix:   "S52L/LH",
-					continent:     EU,
-					cqZone:        CQZONE15,
-					ituZone:       ITUZONE28,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Slovenia",
+					PrimaryPrefix: "S5",
+					AliasPrefix:   "S52L/LH",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE15,
+					ItuZone:       adif.ITUZONE28,
+					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
 						Lon: -14.0,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Slovenia",
-					primaryPrefix: "S5",
-					aliasPrefix:   "S58U/LH",
-					continent:     EU,
-					cqZone:        CQZONE15,
-					ituZone:       ITUZONE28,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Slovenia",
+					PrimaryPrefix: "S5",
+					AliasPrefix:   "S58U/LH",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE15,
+					ItuZone:       adif.ITUZONE28,
+					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
 						Lon: -14.0,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Slovenia",
-					primaryPrefix: "S5",
-					aliasPrefix:   "S59HIJ/LH",
-					continent:     EU,
-					cqZone:        CQZONE15,
-					ituZone:       ITUZONE28,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Slovenia",
+					PrimaryPrefix: "S5",
+					AliasPrefix:   "S59HIJ/LH",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE15,
+					ItuZone:       adif.ITUZONE28,
+					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
 						Lon: -14.0,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 			},
 			wantErr: false,
@@ -167,7 +169,7 @@ func Test_parseCtyDatRecordSweden(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		wantCtyDatList []Dta
+		wantCtyDatList []spot.CtyDta
 		wantErr        bool
 	}{
 		{
@@ -175,99 +177,99 @@ func Test_parseCtyDatRecordSweden(t *testing.T) {
 			args: args{
 				ctyDatRecord: testdata.SwedenCtyDat,
 			},
-			wantCtyDatList: []Dta{
+			wantCtyDatList: []spot.CtyDta{
 				{
-					countryName:   "Sweden",
-					primaryPrefix: "SM",
-					aliasPrefix:   "SM",
-					continent:     EU,
-					cqZone:        CQZONE14,
-					ituZone:       ITUZONE18,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Sweden",
+					PrimaryPrefix: "SM",
+					AliasPrefix:   "SM",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE14,
+					ItuZone:       adif.ITUZONE18,
+					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
 						Lon: -14.57,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 
 				{
-					countryName:   "Sweden",
-					primaryPrefix: "SM",
-					aliasPrefix:   "7S",
-					continent:     EU,
-					cqZone:        CQZONE14,
-					ituZone:       ITUZONE18,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Sweden",
+					PrimaryPrefix: "SM",
+					AliasPrefix:   "7S",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE14,
+					ItuZone:       adif.ITUZONE18,
+					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
 						Lon: -14.57,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Sweden",
-					primaryPrefix: "SM",
-					aliasPrefix:   "8S",
-					continent:     EU,
-					cqZone:        CQZONE14,
-					ituZone:       ITUZONE18,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Sweden",
+					PrimaryPrefix: "SM",
+					AliasPrefix:   "8S",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE14,
+					ItuZone:       adif.ITUZONE18,
+					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
 						Lon: -14.57,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Sweden",
-					primaryPrefix: "SM",
-					aliasPrefix:   "SL",
-					continent:     EU,
-					cqZone:        CQZONE14,
-					ituZone:       ITUZONE18,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Sweden",
+					PrimaryPrefix: "SM",
+					AliasPrefix:   "SL",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE14,
+					ItuZone:       adif.ITUZONE18,
+					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
 						Lon: -14.57,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 
 				{
-					countryName:   "Sweden",
-					primaryPrefix: "SM",
-					aliasPrefix:   "8S8ODEN/MM",
-					continent:     EU,
-					cqZone:        CQZONE40,
-					ituZone:       ITUZONE18,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Sweden",
+					PrimaryPrefix: "SM",
+					AliasPrefix:   "8S8ODEN/MM",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE40,
+					ItuZone:       adif.ITUZONE18,
+					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
 						Lon: -14.57,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Sweden",
-					primaryPrefix: "SM",
-					aliasPrefix:   "SK7RN/LH",
-					continent:     EU,
-					cqZone:        CQZONE14,
-					ituZone:       ITUZONE18,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Sweden",
+					PrimaryPrefix: "SM",
+					AliasPrefix:   "SK7RN/LH",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE14,
+					ItuZone:       adif.ITUZONE18,
+					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
 						Lon: -14.57,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Sweden",
-					primaryPrefix: "SM",
-					aliasPrefix:   "SM7AAL/S",
-					continent:     EU,
-					cqZone:        CQZONE14,
-					ituZone:       ITUZONE18,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Sweden",
+					PrimaryPrefix: "SM",
+					AliasPrefix:   "SM7AAL/S",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE14,
+					ItuZone:       adif.ITUZONE18,
+					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
 						Lon: -14.57,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 			},
 
@@ -295,7 +297,7 @@ func Test_parseCtyDatRecordAfricanItaly(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		wantCtyDatList []Dta
+		wantCtyDatList []spot.CtyDta
 		wantErr        bool
 	}{
 		{
@@ -303,58 +305,58 @@ func Test_parseCtyDatRecordAfricanItaly(t *testing.T) {
 			args: args{
 				ctyDatRecord: testdata.AfricanItalyCtyDat,
 			},
-			wantCtyDatList: []Dta{
+			wantCtyDatList: []spot.CtyDta{
 				{
-					countryName:   "African Italy",
-					primaryPrefix: "IG9",
-					aliasPrefix:   "IG9",
-					continent:     AF,
-					cqZone:        CQZONE33,
-					ituZone:       ITUZONE37,
-					latLon: geo.LatLonDeg{
+					CountryName:   "African Italy",
+					PrimaryPrefix: "IG9",
+					AliasPrefix:   "IG9",
+					Continent:     adif.AF,
+					CqZone:        adif.CQZONE33,
+					ItuZone:       adif.ITUZONE37,
+					LatLon: geo.LatLonDeg{
 						Lat: 35.67,
 						Lon: -12.67,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "African Italy",
-					primaryPrefix: "IG9",
-					aliasPrefix:   "IH9",
-					continent:     AF,
-					cqZone:        CQZONE33,
-					ituZone:       ITUZONE37,
-					latLon: geo.LatLonDeg{
+					CountryName:   "African Italy",
+					PrimaryPrefix: "IG9",
+					AliasPrefix:   "IH9",
+					Continent:     adif.AF,
+					CqZone:        adif.CQZONE33,
+					ItuZone:       adif.ITUZONE37,
+					LatLon: geo.LatLonDeg{
 						Lat: 35.67,
 						Lon: -12.67,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "African Italy",
-					primaryPrefix: "IG9",
-					aliasPrefix:   "IO9Y",
-					continent:     AF,
-					cqZone:        CQZONE33,
-					ituZone:       ITUZONE37,
-					latLon: geo.LatLonDeg{
+					CountryName:   "African Italy",
+					PrimaryPrefix: "IG9",
+					AliasPrefix:   "IO9Y",
+					Continent:     adif.AF,
+					CqZone:        adif.CQZONE33,
+					ItuZone:       adif.ITUZONE37,
+					LatLon: geo.LatLonDeg{
 						Lat: 35.67,
 						Lon: -12.67,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "African Italy",
-					primaryPrefix: "IG9",
-					aliasPrefix:   "IY9A",
-					continent:     AF,
-					cqZone:        CQZONE33,
-					ituZone:       ITUZONE37,
-					latLon: geo.LatLonDeg{
+					CountryName:   "African Italy",
+					PrimaryPrefix: "IG9",
+					AliasPrefix:   "IY9A",
+					Continent:     adif.AF,
+					CqZone:        adif.CQZONE33,
+					ItuZone:       adif.ITUZONE37,
+					LatLon: geo.LatLonDeg{
 						Lat: 35.67,
 						Lon: -12.67,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 			},
 			wantErr: false,
@@ -381,7 +383,7 @@ func Test_parseCtyDatRecordYemen(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		wantCtyDatList []Dta
+		wantCtyDatList []spot.CtyDta
 		wantErr        bool
 	}{
 		{
@@ -389,45 +391,45 @@ func Test_parseCtyDatRecordYemen(t *testing.T) {
 			args: args{
 				ctyDatRecord: testdata.YemenCtyDat,
 			},
-			wantCtyDatList: []Dta{
+			wantCtyDatList: []spot.CtyDta{
 				{
-					countryName:   "Yemen",
-					primaryPrefix: "7O",
-					aliasPrefix:   "7O",
-					continent:     AS,
-					cqZone:        CQZONE21,
-					ituZone:       ITUZONE39,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Yemen",
+					PrimaryPrefix: "7O",
+					AliasPrefix:   "7O",
+					Continent:     adif.AS,
+					CqZone:        adif.CQZONE21,
+					ItuZone:       adif.ITUZONE39,
+					LatLon: geo.LatLonDeg{
 						Lat: 15.65,
 						Lon: -48.12,
 					},
-					timeOffset: "-3.0",
+					TimeOffset: "-3.0",
 				},
 				{
-					countryName:   "Yemen",
-					primaryPrefix: "7O",
-					aliasPrefix:   "7O2A",
-					continent:     AS,
-					cqZone:        CQZONE37,
-					ituZone:       ITUZONE48,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Yemen",
+					PrimaryPrefix: "7O",
+					AliasPrefix:   "7O2A",
+					Continent:     adif.AS,
+					CqZone:        adif.CQZONE37,
+					ItuZone:       adif.ITUZONE48,
+					LatLon: geo.LatLonDeg{
 						Lat: 15.65,
 						Lon: -48.12,
 					},
-					timeOffset: "-3.0",
+					TimeOffset: "-3.0",
 				},
 				{
-					countryName:   "Yemen",
-					primaryPrefix: "7O",
-					aliasPrefix:   "7O6T",
-					continent:     AS,
-					cqZone:        CQZONE37,
-					ituZone:       ITUZONE48,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Yemen",
+					PrimaryPrefix: "7O",
+					AliasPrefix:   "7O6T",
+					Continent:     adif.AS,
+					CqZone:        adif.CQZONE37,
+					ItuZone:       adif.ITUZONE48,
+					LatLon: geo.LatLonDeg{
 						Lat: 15.65,
 						Lon: -48.12,
 					},
-					timeOffset: "-3.0",
+					TimeOffset: "-3.0",
 				},
 			},
 			wantErr: false,
@@ -454,7 +456,7 @@ func Test_parseCtyDatRecordPeter1Island(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		wantCtyDatList []Dta
+		wantCtyDatList []spot.CtyDta
 		wantErr        bool
 	}{
 		{
@@ -462,32 +464,32 @@ func Test_parseCtyDatRecordPeter1Island(t *testing.T) {
 			args: args{
 				ctyDatRecord: testdata.Peter1IslandCtyDat,
 			},
-			wantCtyDatList: []Dta{
+			wantCtyDatList: []spot.CtyDta{
 				{
-					countryName:   "Peter 1 Island",
-					primaryPrefix: "3Y/p",
-					aliasPrefix:   "3Y/p",
-					continent:     SA,
-					cqZone:        CQZONE12,
-					ituZone:       ITUZONE72,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Peter 1 Island",
+					PrimaryPrefix: "3Y/p",
+					AliasPrefix:   "3Y/p",
+					Continent:     adif.SA,
+					CqZone:        adif.CQZONE12,
+					ItuZone:       adif.ITUZONE72,
+					LatLon: geo.LatLonDeg{
 						Lat: -68.77,
 						Lon: 90.58,
 					},
-					timeOffset: "4.0",
+					TimeOffset: "4.0",
 				},
 				{
-					countryName:   "Peter 1 Island",
-					primaryPrefix: "3Y/p",
-					aliasPrefix:   "3Y0X",
-					continent:     SA,
-					cqZone:        CQZONE12,
-					ituZone:       ITUZONE72,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Peter 1 Island",
+					PrimaryPrefix: "3Y/p",
+					AliasPrefix:   "3Y0X",
+					Continent:     adif.SA,
+					CqZone:        adif.CQZONE12,
+					ItuZone:       adif.ITUZONE72,
+					LatLon: geo.LatLonDeg{
 						Lat: -68.77,
 						Lon: 90.58,
 					},
-					timeOffset: "4.0",
+					TimeOffset: "4.0",
 				},
 			},
 			wantErr: false,
@@ -514,7 +516,7 @@ func Test_parseCtyDatRecordBouvet(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		wantCtyDatList []Dta
+		wantCtyDatList []spot.CtyDta
 		wantErr        bool
 	}{
 		{
@@ -522,59 +524,59 @@ func Test_parseCtyDatRecordBouvet(t *testing.T) {
 			args: args{
 				ctyDatRecord: testdata.BouvetCtyDat,
 			},
-			wantCtyDatList: []Dta{
+			wantCtyDatList: []spot.CtyDta{
 				{
-					countryName:   "Bouvet",
-					primaryPrefix: "3Y/b",
-					aliasPrefix:   "3Y/b",
-					continent:     AF,
-					cqZone:        CQZONE38,
-					ituZone:       ITUZONE67,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Bouvet",
+					PrimaryPrefix: "3Y/b",
+					AliasPrefix:   "3Y/b",
+					Continent:     adif.AF,
+					CqZone:        adif.CQZONE38,
+					ItuZone:       adif.ITUZONE67,
+					LatLon: geo.LatLonDeg{
 						Lat: -54.42,
 						Lon: -3.38,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 
 				{
-					countryName:   "Bouvet",
-					primaryPrefix: "3Y/b",
-					aliasPrefix:   "3Y/ZS6GCM",
-					continent:     AF,
-					cqZone:        CQZONE38,
-					ituZone:       ITUZONE67,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Bouvet",
+					PrimaryPrefix: "3Y/b",
+					AliasPrefix:   "3Y/ZS6GCM",
+					Continent:     adif.AF,
+					CqZone:        adif.CQZONE38,
+					ItuZone:       adif.ITUZONE67,
+					LatLon: geo.LatLonDeg{
 						Lat: -54.42,
 						Lon: -3.38,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Bouvet",
-					primaryPrefix: "3Y/b",
-					aliasPrefix:   "3Y0C",
-					continent:     AF,
-					cqZone:        CQZONE38,
-					ituZone:       ITUZONE67,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Bouvet",
+					PrimaryPrefix: "3Y/b",
+					AliasPrefix:   "3Y0C",
+					Continent:     adif.AF,
+					CqZone:        adif.CQZONE38,
+					ItuZone:       adif.ITUZONE67,
+					LatLon: geo.LatLonDeg{
 						Lat: -54.42,
 						Lon: -3.38,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Bouvet",
-					primaryPrefix: "3Y/b",
-					aliasPrefix:   "3Y0E",
-					continent:     AF,
-					cqZone:        CQZONE38,
-					ituZone:       ITUZONE67,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Bouvet",
+					PrimaryPrefix: "3Y/b",
+					AliasPrefix:   "3Y0E",
+					Continent:     adif.AF,
+					CqZone:        adif.CQZONE38,
+					ItuZone:       adif.ITUZONE67,
+					LatLon: geo.LatLonDeg{
 						Lat: -54.42,
 						Lon: -3.38,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 			},
 			wantErr: false,
@@ -600,7 +602,7 @@ func Test_parseCtyDatRecordSloveniaCtyWtDat(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		wantCtyDatList []Dta
+		wantCtyDatList []spot.CtyDta
 		wantErr        bool
 	}{
 		{
@@ -608,19 +610,19 @@ func Test_parseCtyDatRecordSloveniaCtyWtDat(t *testing.T) {
 			args: args{
 				ctyDatRecord: testdata.SloveniaWtModDat,
 			},
-			wantCtyDatList: []Dta{
+			wantCtyDatList: []spot.CtyDta{
 				{
-					countryName:   "Slovenia",
-					primaryPrefix: "S5",
-					aliasPrefix:   "S5",
-					continent:     EU,
-					cqZone:        CQZONE15,
-					ituZone:       ITUZONE28,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Slovenia",
+					PrimaryPrefix: "S5",
+					AliasPrefix:   "S5",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE15,
+					ItuZone:       adif.ITUZONE28,
+					LatLon: geo.LatLonDeg{
 						Lat: 46.00,
 						Lon: -14.00,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 			},
 			wantErr: false,
@@ -647,7 +649,7 @@ func Test_parseCtyDatRecordSwedenCtyWtDat(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		wantCtyDatList []Dta
+		wantCtyDatList []spot.CtyDta
 		wantErr        bool
 	}{
 		{
@@ -655,46 +657,46 @@ func Test_parseCtyDatRecordSwedenCtyWtDat(t *testing.T) {
 			args: args{
 				ctyDatRecord: testdata.SwedenWtModDat,
 			},
-			wantCtyDatList: []Dta{
+			wantCtyDatList: []spot.CtyDta{
 				{
-					countryName:   "Sweden",
-					primaryPrefix: "SM",
-					aliasPrefix:   "SM",
-					continent:     EU,
-					cqZone:        CQZONE14,
-					ituZone:       ITUZONE18,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Sweden",
+					PrimaryPrefix: "SM",
+					AliasPrefix:   "SM",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE14,
+					ItuZone:       adif.ITUZONE18,
+					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
 						Lon: -14.57,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 
 				{
-					countryName:   "Sweden",
-					primaryPrefix: "SM",
-					aliasPrefix:   "7S",
-					continent:     EU,
-					cqZone:        CQZONE14,
-					ituZone:       ITUZONE18,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Sweden",
+					PrimaryPrefix: "SM",
+					AliasPrefix:   "7S",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE14,
+					ItuZone:       adif.ITUZONE18,
+					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
 						Lon: -14.57,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 				{
-					countryName:   "Sweden",
-					primaryPrefix: "SM",
-					aliasPrefix:   "SM7",
-					continent:     EU,
-					cqZone:        CQZONE14,
-					ituZone:       ITUZONE18,
-					latLon: geo.LatLonDeg{
+					CountryName:   "Sweden",
+					PrimaryPrefix: "SM",
+					AliasPrefix:   "SM7",
+					Continent:     adif.EU,
+					CqZone:        adif.CQZONE14,
+					ItuZone:       adif.ITUZONE18,
+					LatLon: geo.LatLonDeg{
 						Lat: 55.58,
 						Lon: -13.10,
 					},
-					timeOffset: "-1.0",
+					TimeOffset: "-1.0",
 				},
 			},
 			wantErr: false,
@@ -721,7 +723,7 @@ func Test_parseCtyDatRecordUnitedStatesCtyWtDat(t *testing.T) {
 	tests := []struct {
 		name           string
 		args           args
-		wantCtyDatList []Dta
+		wantCtyDatList []spot.CtyDta
 		wantErr        bool
 	}{
 		{
@@ -729,61 +731,61 @@ func Test_parseCtyDatRecordUnitedStatesCtyWtDat(t *testing.T) {
 			args: args{
 				ctyDatRecord: testdata.UnitedStatesWtModDat,
 			},
-			wantCtyDatList: []Dta{
+			wantCtyDatList: []spot.CtyDta{
 				{
-					countryName:   "United States",
-					primaryPrefix: "K",
-					aliasPrefix:   "K",
-					continent:     NA,
-					cqZone:        CQZONE5,
-					ituZone:       ITUZONE8,
-					latLon: geo.LatLonDeg{
+					CountryName:   "United States",
+					PrimaryPrefix: "K",
+					AliasPrefix:   "K",
+					Continent:     adif.NA,
+					CqZone:        adif.CQZONE5,
+					ItuZone:       adif.ITUZONE8,
+					LatLon: geo.LatLonDeg{
 						Lat: 37.53,
 						Lon: 91.67,
 					},
-					timeOffset: "5.0",
+					TimeOffset: "5.0",
 				},
 
 				{
-					countryName:   "United States",
-					primaryPrefix: "K",
-					aliasPrefix:   "AA",
-					continent:     NA,
-					cqZone:        CQZONE5,
-					ituZone:       ITUZONE8,
-					latLon: geo.LatLonDeg{
+					CountryName:   "United States",
+					PrimaryPrefix: "K",
+					AliasPrefix:   "AA",
+					Continent:     adif.NA,
+					CqZone:        adif.CQZONE5,
+					ItuZone:       adif.ITUZONE8,
+					LatLon: geo.LatLonDeg{
 						Lat: 37.53,
 						Lon: 91.67,
 					},
-					timeOffset: "5.0",
+					TimeOffset: "5.0",
 				},
 
 				{
-					countryName:   "United States",
-					primaryPrefix: "K",
-					aliasPrefix:   "K5ZD",
-					continent:     NA,
-					cqZone:        CQZONE5,
-					ituZone:       ITUZONE8,
-					latLon: geo.LatLonDeg{
+					CountryName:   "United States",
+					PrimaryPrefix: "K",
+					AliasPrefix:   "K5ZD",
+					Continent:     adif.NA,
+					CqZone:        adif.CQZONE5,
+					ItuZone:       adif.ITUZONE8,
+					LatLon: geo.LatLonDeg{
 						Lat: 42.27,
 						Lon: 71.37,
 					},
-					timeOffset: "5.0",
+					TimeOffset: "5.0",
 				},
 
 				{
-					countryName:   "United States",
-					primaryPrefix: "K",
-					aliasPrefix:   "AD1C",
-					continent:     NA,
-					cqZone:        CQZONE4,
-					ituZone:       ITUZONE7,
-					latLon: geo.LatLonDeg{
+					CountryName:   "United States",
+					PrimaryPrefix: "K",
+					AliasPrefix:   "AD1C",
+					Continent:     adif.NA,
+					CqZone:        adif.CQZONE4,
+					ItuZone:       adif.ITUZONE7,
+					LatLon: geo.LatLonDeg{
 						Lat: 39.52,
 						Lon: 105.20,
 					},
-					timeOffset: "6.0",
+					TimeOffset: "6.0",
 				},
 			},
 			wantErr: false,
@@ -829,80 +831,6 @@ func Test_removeComments(t *testing.T) {
 	}
 }
 
-func Test_parseCtyDatRecordsOld(t *testing.T) {
-	type args struct {
-		ctyDatRecords string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		wantErr bool
-	}{
-		{
-			name: "CtyDatRecordsOld",
-			args: args{
-				ctyDatRecords: testdata.CtyDatRecords,
-			},
-			wantErr: false,
-		},
-		{
-			name: "CtyWtModDatRecordsOld",
-			args: args{
-				ctyDatRecords: testdata.CtyWtModDatRecords,
-			},
-			wantErr: false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if err := parseCtyDatRecordsOld(tt.args.ctyDatRecords); (err != nil) != tt.wantErr {
-				t.Errorf("parseCtyDatRecordsOld() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
-}
-
-func Test_parseCtyDatRecords(t *testing.T) {
-	type args struct {
-		ctyDatRecords string
-	}
-	tests := []struct {
-		name     string
-		args     args
-		wantSize int
-		wantErr  bool
-	}{
-		{
-			name: "CtyDatRecords",
-			args: args{
-				ctyDatRecords: testdata.CtyDatRecords,
-			},
-			wantSize: 21314,
-			wantErr:  false,
-		},
-		{
-			name: "CtyWtModDatRecords",
-			args: args{
-				ctyDatRecords: testdata.CtyWtModDatRecords,
-			},
-			wantSize: 26991,
-			wantErr:  false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			gotSize, err := parseCtyDatRecords(tt.args.ctyDatRecords)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("parseCtyDatRecords() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if gotSize != tt.wantSize {
-				t.Errorf("parseCtyDatRecords() = %v, want %v", gotSize, tt.wantSize)
-			}
-		})
-	}
-}
-
 func Test_parseCtyDatRecordsGo(t *testing.T) {
 	type args struct {
 		ctyDatRecords string
@@ -932,13 +860,13 @@ func Test_parseCtyDatRecordsGo(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotMsize, err := parseCtyDatRecordsGo(tt.args.ctyDatRecords)
+			gotMsize, err := parseCtyDatRecordsForTest(tt.args.ctyDatRecords)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("parseCtyDatRecordsGo() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("parseCtyDatRecordsForTest() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if gotMsize != tt.wantMsize {
-				t.Errorf("parseCtyDatRecordsGo() = %v, want %v", gotMsize, tt.wantMsize)
+				t.Errorf("parseCtyDatRecordsForTest() = %v, want %v", gotMsize, tt.wantMsize)
 			}
 		})
 	}

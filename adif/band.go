@@ -1,4 +1,4 @@
-package freq
+package adif
 
 import (
 	"errors"
