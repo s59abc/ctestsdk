@@ -225,6 +225,27 @@ func Test_get(t *testing.T) {
 			},
 			want1: true,
 		},
+
+		{
+			name: "S51DS-1",
+			args: args{
+				key: "S51DS",
+			},
+			want: spot.CtyDta{
+				CountryName:   "Slovenia",
+				PrimaryPrefix: "S5",
+				AliasPrefix:   "S5",
+				Continent:     adif.EU,
+				CqZone:        adif.CQZONE15,
+				ItuZone:       adif.ITUZONE28,
+				LatLon: geo.LatLonDeg{
+					Lat: 46.0000,
+					Lon: -14.0000,
+				},
+				TimeOffset: "-1.0",
+			},
+			want1: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
