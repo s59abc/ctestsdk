@@ -2,12 +2,15 @@ package ctydat
 
 import (
 	"ctestsdk/ctydat/internal"
+	"ctestsdk/geo"
 	"ctestsdk/spot"
 	"strings"
 	"sync"
 	"time"
 )
 
+///////////////
+// ctyDat
 var muxCtyDatMap sync.RWMutex
 var ctyDatMap map[string]spot.CtyDta
 
@@ -59,7 +62,7 @@ func cacheLen() int {
 
 }
 
-func get(callSign string) (spot.CtyDta, bool) {
+func get(callSign string) (dta spot.CtyDta, find bool) {
 	callSign = strings.TrimSpace(callSign)
 	callSign = strings.ToUpper(callSign)
 
@@ -68,8 +71,8 @@ func get(callSign string) (spot.CtyDta, bool) {
 	}
 
 	tempCallSign := callSign
-	dta := spot.CtyDta{}
-	find := false
+	dta = spot.CtyDta{}
+	find = false
 
 	// handling such cases like AC2AI/KH2 --> KH2/AC2AI
 	if strings.Contains(tempCallSign, "/") {
@@ -92,13 +95,29 @@ func get(callSign string) (spot.CtyDta, bool) {
 }
 
 func AddCtyDat(spot spot.Data) spot.Data {
-	deDta, find := get(spot.DE())
+	deDta, find := get(spot.De)
 	if find {
 		spot.DeCtyDta = deDta
 	}
-	dxDta, find := get(spot.DX())
+	dxDta, find := get(spot.Dx)
 	if find {
-		spot.DeCtyDta = dxDta
+		spot.DxCtyDta = dxDta
+	}
+	//
+	//////////////////////////
+	// QTH staff update
+	if deQth, err := geo.NewQthFromLatLon(spot.DeCtyDta.LatLon.Lat, spot.DeCtyDta.LatLon.Lon); err == nil {
+		spot.DeQTH = deQth
+	}
+	if dxQth, err := geo.NewQthFromLatLon(spot.DxCtyDta.LatLon.Lat, spot.DxCtyDta.LatLon.Lon); err == nil {
+		spot.DxQTH = dxQth
+	}
+	if spot.IsRbn {
+		if qthLoc, find := getSkimmerLocator(spot.De); find {
+			if qth, err := geo.NewQthFromLOC(qthLoc); err == nil {
+				spot.DeQTH = qth
+			}
+		}
 	}
 	return spot
 }

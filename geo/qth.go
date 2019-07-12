@@ -12,9 +12,42 @@ import (
 )
 
 type QTH struct {
-	loc    string    // Maidenhead QTH Locator
-	latLon LatLonDeg // latLon represent a point as a pair of latitude and longitude degrees
-	latLng s2.LatLng // LatLng represents a point on the unit sphere as a pair of angles.
+	Loc    string    // Maidenhead QTH Locator
+	LatLon LatLonDeg // LatLon represent a point as a pair of latitude and longitude degrees
+	LatLng s2.LatLng // LatLng represents a point on the unit sphere as a pair of angles.
+}
+
+func almostEqual(a, b float64) bool {
+	return math.Abs(a-b) < 0.00001
+}
+
+func (a QTH) String() string {
+	return fmt.Sprintf("[ %s %s {%.6f %.6f} ]", a.Loc, a.LatLon.String(), a.LatLng.Lat.Radians(), a.LatLng.Lng.Radians())
+}
+
+func QthEqual(a, b QTH) bool {
+	eq := a.Loc == b.Loc
+	if eq {
+		eq = almostEqual(a.LatLon.Lat, b.LatLon.Lat)
+	} else {
+		return false
+	}
+	if eq {
+		eq = almostEqual(a.LatLon.Lon, b.LatLon.Lon)
+	} else {
+		return false
+	}
+	if eq {
+		eq = almostEqual(a.LatLng.Lat.Radians(), b.LatLng.Lat.Radians())
+	} else {
+		return false
+	}
+	if eq {
+		eq = almostEqual(a.LatLng.Lng.Radians(), b.LatLng.Lng.Radians())
+	} else {
+		return false
+	}
+	return eq
 }
 
 const earthRadiusKm = 6371.0088 // mean Earth radius in km
@@ -26,14 +59,14 @@ func DistanceLocator(locatorA string, locatorB string) (float64, error) {
 	if err != nil {
 		return 0, err
 	} else {
-		d := a.latLng.Distance(b.latLng)
+		d := a.LatLng.Distance(b.LatLng)
 		return d.Radians() * earthRadiusKm, nil
 	}
 }
 
 // returns Distance between two QTH variables in km
 func DistanceQTH(a, b QTH) float64 {
-	d := a.latLng.Distance(b.latLng)
+	d := a.LatLng.Distance(b.LatLng)
 	return d.Radians() * earthRadiusKm
 }
 
@@ -65,9 +98,9 @@ func NewQthFromLOC(qthLocator string) (QTH, error) {
 				lat := f.decoded.Lat + s.decoded.Lat + ss.decoded.Lat/60 + 0.02083333 // 1.25' / 60
 				lon := f.decoded.Lon + s.decoded.Lon + ss.decoded.Lon/60 + 0.04166667 // 2.5' / 60
 				return QTH{
-					loc:    qthLocator,
-					latLon: LatLonDeg{lat, lon},
-					latLng: s2.LatLngFromDegrees(lat, lon),
+					Loc:    qthLocator,
+					LatLon: LatLonDeg{lat, lon},
+					LatLng: s2.LatLngFromDegrees(lat, lon),
 				}, nil
 			} else {
 				return qth, illegalArgumentError(qthLocator)
@@ -87,9 +120,9 @@ func NewQthFromLOC(qthLocator string) (QTH, error) {
 				lat := f.decoded.Lat + s.decoded.Lat + 0.5
 				lon := f.decoded.Lon + s.decoded.Lon + 1
 				return QTH{
-					loc:    qthLocator,
-					latLon: LatLonDeg{lat, lon},
-					latLng: s2.LatLngFromDegrees(lat, lon),
+					Loc:    qthLocator,
+					LatLon: LatLonDeg{lat, lon},
+					LatLng: s2.LatLngFromDegrees(lat, lon),
 				}, nil
 			} else {
 				return qth, illegalArgumentError(qthLocator)
@@ -106,9 +139,9 @@ func NewQthFromLOC(qthLocator string) (QTH, error) {
 				lon := f.decoded.Lon + 10
 
 				return QTH{
-					loc:    qthLocator,
-					latLon: LatLonDeg{lat, lon},
-					latLng: s2.LatLngFromDegrees(lat, lon),
+					Loc:    qthLocator,
+					LatLon: LatLonDeg{lat, lon},
+					LatLng: s2.LatLngFromDegrees(lat, lon),
 				}, nil
 
 			} else {
@@ -133,8 +166,8 @@ func NewQthFromLatLon(latitude, longitude float64) (QTH, error) {
 	}
 	f, s, ss := subsquareEncode(lld)
 	return QTH{
-		loc:    f.encoded.getLonChar() + f.encoded.getLatChar() + s.encoded.getLonChar() + s.encoded.getLatChar() + ss.encoded.getLonChar() + ss.encoded.getLatChar(),
-		latLon: lld,
-		latLng: s2.LatLngFromDegrees(latitude, longitude),
+		Loc:    f.encoded.getLonChar() + f.encoded.getLatChar() + s.encoded.getLonChar() + s.encoded.getLatChar() + ss.encoded.getLonChar() + ss.encoded.getLatChar(),
+		LatLon: lld,
+		LatLng: s2.LatLngFromDegrees(latitude, longitude),
 	}, nil
 }

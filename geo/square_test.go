@@ -44,7 +44,7 @@ func TestSquare_String(t *testing.T) {
 		{
 			name:   "toString-zero-1",
 			fields: fields{},
-			want:   "Decoded:Lat=0.0000, Lon=0.0000",
+			want:   "Decoded:{0.000000 0.000000}",
 		},
 		{
 			name: "toString-decoded-zero-2",
@@ -54,7 +54,7 @@ func TestSquare_String(t *testing.T) {
 					Lon: 0,
 				},
 			},
-			want: "Decoded:Lat=0.0000, Lon=0.0000",
+			want: "Decoded:{0.000000 0.000000}",
 		},
 		{
 			name: "toString-zero-3",
@@ -68,7 +68,7 @@ func TestSquare_String(t *testing.T) {
 					lonChar: 0,
 				},
 			},
-			want: "Decoded:Lat=0.0000, Lon=0.0000",
+			want: "Decoded:{0.000000 0.000000}",
 		},
 		{
 			name: "toString-decoded-1",
@@ -78,7 +78,7 @@ func TestSquare_String(t *testing.T) {
 					Lon: 2,
 				},
 			},
-			want: "Decoded:Lat=1.0000, Lon=2.0000",
+			want: "Decoded:{1.000000 2.000000}",
 		},
 		{
 			name: "toString-decoded-2",
@@ -88,7 +88,7 @@ func TestSquare_String(t *testing.T) {
 					Lon: 18,
 				},
 			},
-			want: "Decoded:Lat=9.0000, Lon=18.0000",
+			want: "Decoded:{9.000000 18.000000}",
 		},
 	}
 	for _, tt := range tests {

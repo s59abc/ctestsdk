@@ -23,10 +23,10 @@ func TestNewSpot(t *testing.T) {
 				rawData: "",
 			},
 			want: Data{
-				dx:       "",
-				de:       "",
-				freq:     "",
-				raw:      "",
+				Dx:       "",
+				De:       "",
+				Freq:     "",
+				Raw:      "",
 				DxQTH:    geo.QTH{},
 				DxCtyDta: CtyDta{},
 				DeQTH:    geo.QTH{},
@@ -37,13 +37,13 @@ func TestNewSpot(t *testing.T) {
 		{
 			name: "Not-a-Spot-001",
 			args: args{
-				rawData: "XY de",
+				rawData: "XY De",
 			},
 			want: Data{
-				dx:       "",
-				de:       "",
-				freq:     "",
-				raw:      "",
+				Dx:       "",
+				De:       "",
+				Freq:     "",
+				Raw:      "",
 				DxQTH:    geo.QTH{},
 				DxCtyDta: CtyDta{},
 				DeQTH:    geo.QTH{},
@@ -54,13 +54,13 @@ func TestNewSpot(t *testing.T) {
 		{
 			name: "Not-a-Spot-002",
 			args: args{
-				rawData: "DX de ",
+				rawData: "DX De ",
 			},
 			want: Data{
-				dx:       "",
-				de:       "",
-				freq:     "",
-				raw:      "",
+				Dx:       "",
+				De:       "",
+				Freq:     "",
+				Raw:      "",
 				DxQTH:    geo.QTH{},
 				DxCtyDta: CtyDta{},
 				DeQTH:    geo.QTH{},
@@ -71,13 +71,13 @@ func TestNewSpot(t *testing.T) {
 		{
 			name: "Not-a-Spot-003",
 			args: args{
-				rawData: "DX de  S",
+				rawData: "DX De  S",
 			},
 			want: Data{
-				dx:       "",
-				de:       "",
-				freq:     "",
-				raw:      "",
+				Dx:       "",
+				De:       "",
+				Freq:     "",
+				Raw:      "",
 				DxQTH:    geo.QTH{},
 				DxCtyDta: CtyDta{},
 				DeQTH:    geo.QTH{},
@@ -88,13 +88,13 @@ func TestNewSpot(t *testing.T) {
 		{
 			name: "Not-a-Spot-004",
 			args: args{
-				rawData: "DX de  S59ABC",
+				rawData: "DX De  S59ABC",
 			},
 			want: Data{
-				dx:       "",
-				de:       "",
-				freq:     "",
-				raw:      "",
+				Dx:       "",
+				De:       "",
+				Freq:     "",
+				Raw:      "",
 				DxQTH:    geo.QTH{},
 				DxCtyDta: CtyDta{},
 				DeQTH:    geo.QTH{},
@@ -105,18 +105,18 @@ func TestNewSpot(t *testing.T) {
 		{
 			name: "Spot-001",
 			args: args{
-				rawData: "DX de S50ARX-#:     3502.8  S50A        CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
+				rawData: "DX De S50ARX-#:     3502.8  S50A        CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
 			},
 			want: Data{
-				dx:       "S50A",
-				de:       "S50ARX",
-				freq:     "3502.8",
-				raw:      "DX de S50ARX-#:     3502.8  S50A        CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
-				comments: "CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
+				Dx:       "S50A",
+				De:       "S50ARX",
+				Freq:     "3502.8",
+				Raw:      "DX De S50ARX-#:     3502.8  S50A        CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
+				Comments: "CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
 				Source:   "",
 				IsRbn:    true,
 				BAND:     adif.Band80M,
-				MODE:     0,
+				MODE:     adif.CW,
 				DxQTH:    geo.QTH{},
 				DxCtyDta: CtyDta{},
 				DeQTH:    geo.QTH{},
@@ -152,21 +152,45 @@ func TestNewSpotPoc(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "",
+			name: "POC-1",
 			args: args{
-				rawData: "DX de S50ARX-#:     3502.8  S50A        CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
+				rawData: "DX De S50ARX-#:     3502.8  S50A        CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
 				source:  "",
 			},
 			want: Data{
-				dx:       "S50A",
-				de:       "S50ARX",
-				freq:     "3502.8",
-				raw:      "DX de S50ARX-#:     3502.8  S50A        CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
-				comments: "CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
+				Dx:       "S50A",
+				De:       "S50ARX",
+				Freq:     "3502.8",
+				Raw:      "DX De S50ARX-#:     3502.8  S50A        CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
+				Comments: "CW    14 dB  26 WPM  CQ       1118Z IO73\a\a",
 				Source:   "",
 				IsRbn:    true,
-				BAND:     0,
-				MODE:     0,
+				BAND:     adif.Band80M,
+				MODE:     adif.CW,
+				DxQTH:    geo.QTH{},
+				DxCtyDta: CtyDta{},
+				DeQTH:    geo.QTH{},
+				DeCtyDta: CtyDta{},
+			},
+			wantErr: false,
+		},
+
+		{
+			name: "POC-2",
+			args: args{
+				rawData: "DX de KM3T-2-#:   1823.3  K0RF           CW    14 dB  25 WPM  CQ      1035Z",
+				source:  "",
+			},
+			want: Data{
+				Dx:       "K0RF",
+				De:       "KM3T",
+				Freq:     "1823.3",
+				Raw:      "DX de KM3T-2-#:   1823.3  K0RF           CW    14 dB  25 WPM  CQ      1035Z",
+				Comments: "CW    14 dB  25 WPM  CQ      1035Z",
+				Source:   "",
+				IsRbn:    true,
+				BAND:     adif.Band160M,
+				MODE:     adif.CW,
 				DxQTH:    geo.QTH{},
 				DxCtyDta: CtyDta{},
 				DeQTH:    geo.QTH{},
@@ -177,13 +201,13 @@ func TestNewSpotPoc(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewSpotPoc(tt.args.rawData, tt.args.source)
+			got, err := NewSpot(tt.args.rawData, tt.args.source)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("NewSpotPoc() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("NewSpot() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewSpotPoc() = %v, want %v", got, tt.want)
+				t.Errorf("NewSpot() = %v, want %v", got, tt.want)
 			}
 		})
 	}

@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"strings"
 )
 
 type CtyDta struct {
@@ -19,17 +20,43 @@ type CtyDta struct {
 	TimeOffset    string             //Local time offset from GMT
 }
 
+func CtyDtaEqual(a, b CtyDta) bool {
+	eq := a.CountryName == b.CountryName
+	if eq {
+		eq = a.PrimaryPrefix == b.PrimaryPrefix
+	}
+	if eq {
+		eq = a.AliasPrefix == b.AliasPrefix
+	}
+	if eq {
+		eq = a.Continent == b.Continent
+	}
+	if eq {
+		eq = a.CqZone == b.CqZone
+	}
+	if eq {
+		eq = a.ItuZone == b.ItuZone
+	}
+	if eq {
+		eq = a.LatLon.Equal(b.LatLon)
+	}
+	if eq {
+		eq = a.TimeOffset == b.TimeOffset
+	}
+	return eq
+}
+
 func (a CtyDta) String() string {
 	return fmt.Sprintf("CountryName=%s, PrimaryPrefix=%s, AliasPrefix=%s, Continent=%s, CqZone=%d, ItuZone=%d, %s, TimeOffset=%s", a.CountryName, a.PrimaryPrefix, a.AliasPrefix, a.Continent.String(), a.CqZone, a.ItuZone, a.LatLon.String(), a.TimeOffset)
 
 }
 
 type Data struct {
-	dx       string
-	de       string
-	freq     string
-	raw      string
-	comments string
+	Dx       string
+	De       string
+	Freq     string
+	Raw      string
+	Comments string
 	// TODO;
 	Source   string //Source (origin) of the spot
 	IsRbn    bool
@@ -41,11 +68,65 @@ type Data struct {
 	DeCtyDta CtyDta
 }
 
+func (a Data) String() string {
+	return fmt.Sprintf("\n%s\n"+
+		"Dx:%s\n"+
+		"De:%s\n"+
+		"Freq:%s Band:%s Mode:%s\n"+
+		"DeCtyDta:%s\n"+
+		"DxCtyDta:%s\n"+
+		"DeQTH:%s\n"+
+		"DxQTH:%s\n"+
+		"IsRBN:%t, Source:%s\n"+
+		"Comments:%s\n", a.Raw, a.Dx, a.De, a.Freq, a.BAND.String(), a.MODE.String(), a.DeCtyDta.String(), a.DxCtyDta.String(), a.DeQTH, a.DxQTH, a.IsRbn, a.Source, a.Comments)
+}
+
+func DataEqual(a, b Data) bool {
+	eq := a.Dx == b.Dx
+	if eq {
+		eq = a.De == b.De
+	}
+	if eq {
+		eq = a.Freq == b.Freq
+	}
+	if eq {
+		eq = a.Raw == b.Raw
+	}
+	if eq {
+		eq = a.Comments == b.Comments
+	}
+	if eq {
+		eq = a.Source == b.Source
+	}
+	if eq {
+		eq = a.IsRbn == b.IsRbn
+	}
+	if eq {
+		eq = a.BAND == b.BAND
+	}
+	if eq {
+		eq = a.MODE == b.MODE
+	}
+	if eq {
+		eq = geo.QthEqual(a.DxQTH, b.DxQTH)
+	}
+	if eq {
+		eq = CtyDtaEqual(a.DxCtyDta, b.DxCtyDta)
+	}
+	if eq {
+		eq = geo.QthEqual(a.DeQTH, b.DeQTH)
+	}
+	if eq {
+		eq = CtyDtaEqual(a.DeCtyDta, b.DeCtyDta)
+	}
+	return eq
+}
+
 var ignore error = errors.New("it is not a spot, ignore it")
 
 ///////////
 //regex
-var isSpotRegex *regexp.Regexp = regexp.MustCompile(`^DX de \w`)
+var isSpotRegex *regexp.Regexp = regexp.MustCompile(`^DX DE \w`)
 var splitSpotByColonRegex *regexp.Regexp = regexp.MustCompile(":")
 var splitSpotBySpaceRegex *regexp.Regexp = regexp.MustCompile(`[ ]+`)
 var deCallSignRegex *regexp.Regexp = regexp.MustCompile(`[0-9A-Za-z/]{3,}`)
@@ -61,10 +142,11 @@ var deCallSignRegex *regexp.Regexp = regexp.MustCompile(`[0-9A-Za-z/]{3,}`)
 // If it is a RBN or Dx Cluster AND returned error is not nil that is sing that it is spot but it
 // can not be decoded into Data cos there is bug in this function or spot is really wrong formatted.
 func NewSpot(rawData string, source string) (Data, error) {
-	//DX de S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
-	if matched := isSpotRegex.MatchString(rawData); matched {
 
-		data := Data{raw: rawData} //raw: DX de S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
+	//DX De S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
+	if matched := isSpotRegex.MatchString(strings.ToUpper(rawData)); matched {
+
+		data := Data{Raw: rawData} //Raw: DX De S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
 		s := rawData[6:]           //s:         S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
 		//		fmt.Println("s:", s)
 		ss := splitSpotByColonRegex.Split(s, 2)
@@ -76,8 +158,8 @@ func NewSpot(rawData string, source string) (Data, error) {
 		//ss[0]= S50ARX-#
 		data.IsRbn = ss[0][len(ss[0])-1] == '#'
 		//spot sender
-		data.de = deCallSignRegex.FindString(ss[0])
-		if data.de == "" {
+		data.De = deCallSignRegex.FindString(ss[0])
+		if data.De == "" {
 			return Data{}, errors.New("Not a regular spot; DE is wrong formatted! " + rawData)
 		}
 
@@ -87,21 +169,22 @@ func NewSpot(rawData string, source string) (Data, error) {
 			return Data{}, errors.New("Not a regular spot; Unexpected split by space! " + rawData)
 		}
 
-		//freq, band
-		data.freq = sss[1]
-		if b, e := adif.GetBand(data.freq); e == nil {
+		//Freq, band
+		data.Freq = sss[1]
+		if b, e := adif.GetBand(data.Freq); e == nil {
 			data.BAND = b
 		}
-		//		BAND, _ = freq.GetBand(data.freq)
-		data.dx = sss[2]
-		data.comments = sss[3]
 
-		//fmt.Println(len(sss))
-		//for _,j := range sss {
-		//	fmt.Println(j)
-		//}
+		data.Dx = sss[2]
+		data.Comments = sss[3]
 
-		data.raw = rawData
+		//mode, if available
+		ssss := splitSpotBySpaceRegex.Split(sss[3], 2)
+		if m, e := adif.GetMode(ssss[0]); e == nil {
+			data.MODE = m
+		}
+
+		//data.Raw = rawData
 		data.Source = source
 		return data, nil
 
@@ -110,61 +193,45 @@ func NewSpot(rawData string, source string) (Data, error) {
 	}
 }
 
-func NewSpotPoc(rawData string, source string) (Data, error) {
-	//DX de S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
-	if matched := isSpotRegex.MatchString(rawData); matched {
-
-		data := Data{raw: rawData} //raw: DX de S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
-		s := rawData[6:]           //s:         S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
-		fmt.Println("s:", s)
-		ss := splitSpotByColonRegex.Split(s, 2)
-		if len(ss) != 2 {
-			return Data{}, errors.New("Not a regular spot; Unexpected split by colon! " + rawData)
-		}
-		fmt.Println("ss[0]=", ss[0])
-		fmt.Println("ss[1]=", ss[1])
-		//ss[0]= S50ARX-#
-		data.IsRbn = ss[0][len(ss[0])-1] == '#'
-		//spot sender
-		data.de = deCallSignRegex.FindString(ss[0])
-		if data.de == "" {
-			return Data{}, errors.New("Not a regular spot; DE is wrong formatted! " + rawData)
-		}
-
-		//ss[1]=    7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
-		sss := splitSpotBySpaceRegex.Split(ss[1], 4)
-		if len(sss) != 4 {
-			return Data{}, errors.New("Not a regular spot; Unexpected split by space! " + rawData)
-		}
-		data.freq = sss[1]
-		data.dx = sss[2]
-		data.comments = sss[3]
-
-		fmt.Println(len(sss))
-		for _, j := range sss {
-			fmt.Println(j)
-		}
-
-		data.Source = source
-		return data, nil
-
-	} else {
-		return Data{}, ignore
-	}
-}
-
-func (a Data) DX() string {
-	return a.dx
-}
-
-func (a Data) DE() string {
-	return a.de
-}
-
-func (a Data) FREQ() string {
-	return a.freq
-}
-
-func (a Data) Raw() string {
-	return a.raw
-}
+//func NewSpotPoc(rawData string, source string) (Data, error) {
+//	//DX De S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
+//	if matched := isSpotRegex.MatchString(rawData); matched {
+//
+//		data := Data{Raw: rawData} //Raw: DX De S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
+//		s := rawData[6:]           //s:         S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
+//		fmt.Println("s:", s)
+//		ss := splitSpotByColonRegex.Split(s, 2)
+//		if len(ss) != 2 {
+//			return Data{}, errors.New("Not a regular spot; Unexpected split by colon! " + rawData)
+//		}
+//		fmt.Println("ss[0]=", ss[0])
+//		fmt.Println("ss[1]=", ss[1])
+//		//ss[0]= S50ARX-#
+//		data.IsRbn = ss[0][len(ss[0])-1] == '#'
+//		//spot sender
+//		data.De = deCallSignRegex.FindString(ss[0])
+//		if data.De == "" {
+//			return Data{}, errors.New("Not a regular spot; DE is wrong formatted! " + rawData)
+//		}
+//
+//		//ss[1]=    7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z
+//		sss := splitSpotBySpaceRegex.Split(ss[1], 4)
+//		if len(sss) != 4 {
+//			return Data{}, errors.New("Not a regular spot; Unexpected split by space! " + rawData)
+//		}
+//		data.Freq = sss[1]
+//		data.Dx = sss[2]
+//		data.Comments = sss[3]
+//
+//		fmt.Println(len(sss))
+//		for _, j := range sss {
+//			fmt.Println(j)
+//		}
+//
+//		data.Source = source
+//		return data, nil
+//
+//	} else {
+//		return Data{}, ignore
+//	}
+//}

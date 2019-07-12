@@ -75,7 +75,7 @@ func Test_parseCtyDatRecordSlovenia(t *testing.T) {
 					ItuZone:       adif.ITUZONE28,
 					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
-						Lon: -14.0,
+						Lon: 14.0,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -88,7 +88,7 @@ func Test_parseCtyDatRecordSlovenia(t *testing.T) {
 					ItuZone:       adif.ITUZONE28,
 					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
-						Lon: -14.0,
+						Lon: 14.0,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -101,7 +101,7 @@ func Test_parseCtyDatRecordSlovenia(t *testing.T) {
 					ItuZone:       adif.ITUZONE28,
 					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
-						Lon: -14.0,
+						Lon: 14.0,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -114,7 +114,7 @@ func Test_parseCtyDatRecordSlovenia(t *testing.T) {
 					ItuZone:       adif.ITUZONE28,
 					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
-						Lon: -14.0,
+						Lon: 14.0,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -127,7 +127,7 @@ func Test_parseCtyDatRecordSlovenia(t *testing.T) {
 					ItuZone:       adif.ITUZONE28,
 					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
-						Lon: -14.0,
+						Lon: 14.0,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -140,7 +140,7 @@ func Test_parseCtyDatRecordSlovenia(t *testing.T) {
 					ItuZone:       adif.ITUZONE28,
 					LatLon: geo.LatLonDeg{
 						Lat: 46.0,
-						Lon: -14.0,
+						Lon: 14.0,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -187,7 +187,7 @@ func Test_parseCtyDatRecordSweden(t *testing.T) {
 					ItuZone:       adif.ITUZONE18,
 					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
-						Lon: -14.57,
+						Lon: 14.57,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -201,7 +201,7 @@ func Test_parseCtyDatRecordSweden(t *testing.T) {
 					ItuZone:       adif.ITUZONE18,
 					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
-						Lon: -14.57,
+						Lon: 14.57,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -214,7 +214,7 @@ func Test_parseCtyDatRecordSweden(t *testing.T) {
 					ItuZone:       adif.ITUZONE18,
 					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
-						Lon: -14.57,
+						Lon: 14.57,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -227,7 +227,7 @@ func Test_parseCtyDatRecordSweden(t *testing.T) {
 					ItuZone:       adif.ITUZONE18,
 					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
-						Lon: -14.57,
+						Lon: 14.57,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -241,7 +241,7 @@ func Test_parseCtyDatRecordSweden(t *testing.T) {
 					ItuZone:       adif.ITUZONE18,
 					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
-						Lon: -14.57,
+						Lon: 14.57,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -254,7 +254,7 @@ func Test_parseCtyDatRecordSweden(t *testing.T) {
 					ItuZone:       adif.ITUZONE18,
 					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
-						Lon: -14.57,
+						Lon: 14.57,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -267,7 +267,7 @@ func Test_parseCtyDatRecordSweden(t *testing.T) {
 					ItuZone:       adif.ITUZONE18,
 					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
-						Lon: -14.57,
+						Lon: 14.57,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -315,7 +315,7 @@ func Test_parseCtyDatRecordAfricanItaly(t *testing.T) {
 					ItuZone:       adif.ITUZONE37,
 					LatLon: geo.LatLonDeg{
 						Lat: 35.67,
-						Lon: -12.67,
+						Lon: 12.67,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -328,7 +328,7 @@ func Test_parseCtyDatRecordAfricanItaly(t *testing.T) {
 					ItuZone:       adif.ITUZONE37,
 					LatLon: geo.LatLonDeg{
 						Lat: 35.67,
-						Lon: -12.67,
+						Lon: 12.67,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -341,7 +341,7 @@ func Test_parseCtyDatRecordAfricanItaly(t *testing.T) {
 					ItuZone:       adif.ITUZONE37,
 					LatLon: geo.LatLonDeg{
 						Lat: 35.67,
-						Lon: -12.67,
+						Lon: 12.67,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -354,7 +354,7 @@ func Test_parseCtyDatRecordAfricanItaly(t *testing.T) {
 					ItuZone:       adif.ITUZONE37,
 					LatLon: geo.LatLonDeg{
 						Lat: 35.67,
-						Lon: -12.67,
+						Lon: 12.67,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -401,7 +401,7 @@ func Test_parseCtyDatRecordYemen(t *testing.T) {
 					ItuZone:       adif.ITUZONE39,
 					LatLon: geo.LatLonDeg{
 						Lat: 15.65,
-						Lon: -48.12,
+						Lon: 48.12,
 					},
 					TimeOffset: "-3.0",
 				},
@@ -414,7 +414,7 @@ func Test_parseCtyDatRecordYemen(t *testing.T) {
 					ItuZone:       adif.ITUZONE48,
 					LatLon: geo.LatLonDeg{
 						Lat: 15.65,
-						Lon: -48.12,
+						Lon: 48.12,
 					},
 					TimeOffset: "-3.0",
 				},
@@ -427,7 +427,7 @@ func Test_parseCtyDatRecordYemen(t *testing.T) {
 					ItuZone:       adif.ITUZONE48,
 					LatLon: geo.LatLonDeg{
 						Lat: 15.65,
-						Lon: -48.12,
+						Lon: 48.12,
 					},
 					TimeOffset: "-3.0",
 				},
@@ -474,7 +474,7 @@ func Test_parseCtyDatRecordPeter1Island(t *testing.T) {
 					ItuZone:       adif.ITUZONE72,
 					LatLon: geo.LatLonDeg{
 						Lat: -68.77,
-						Lon: 90.58,
+						Lon: -90.58,
 					},
 					TimeOffset: "4.0",
 				},
@@ -487,7 +487,7 @@ func Test_parseCtyDatRecordPeter1Island(t *testing.T) {
 					ItuZone:       adif.ITUZONE72,
 					LatLon: geo.LatLonDeg{
 						Lat: -68.77,
-						Lon: 90.58,
+						Lon: -90.58,
 					},
 					TimeOffset: "4.0",
 				},
@@ -534,7 +534,7 @@ func Test_parseCtyDatRecordBouvet(t *testing.T) {
 					ItuZone:       adif.ITUZONE67,
 					LatLon: geo.LatLonDeg{
 						Lat: -54.42,
-						Lon: -3.38,
+						Lon: 3.38,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -548,7 +548,7 @@ func Test_parseCtyDatRecordBouvet(t *testing.T) {
 					ItuZone:       adif.ITUZONE67,
 					LatLon: geo.LatLonDeg{
 						Lat: -54.42,
-						Lon: -3.38,
+						Lon: 3.38,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -561,7 +561,7 @@ func Test_parseCtyDatRecordBouvet(t *testing.T) {
 					ItuZone:       adif.ITUZONE67,
 					LatLon: geo.LatLonDeg{
 						Lat: -54.42,
-						Lon: -3.38,
+						Lon: 3.38,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -574,7 +574,7 @@ func Test_parseCtyDatRecordBouvet(t *testing.T) {
 					ItuZone:       adif.ITUZONE67,
 					LatLon: geo.LatLonDeg{
 						Lat: -54.42,
-						Lon: -3.38,
+						Lon: 3.38,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -620,7 +620,7 @@ func Test_parseCtyDatRecordSloveniaCtyWtDat(t *testing.T) {
 					ItuZone:       adif.ITUZONE28,
 					LatLon: geo.LatLonDeg{
 						Lat: 46.00,
-						Lon: -14.00,
+						Lon: 14.00,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -667,7 +667,7 @@ func Test_parseCtyDatRecordSwedenCtyWtDat(t *testing.T) {
 					ItuZone:       adif.ITUZONE18,
 					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
-						Lon: -14.57,
+						Lon: 14.57,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -681,7 +681,7 @@ func Test_parseCtyDatRecordSwedenCtyWtDat(t *testing.T) {
 					ItuZone:       adif.ITUZONE18,
 					LatLon: geo.LatLonDeg{
 						Lat: 61.20,
-						Lon: -14.57,
+						Lon: 14.57,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -694,7 +694,7 @@ func Test_parseCtyDatRecordSwedenCtyWtDat(t *testing.T) {
 					ItuZone:       adif.ITUZONE18,
 					LatLon: geo.LatLonDeg{
 						Lat: 55.58,
-						Lon: -13.10,
+						Lon: 13.10,
 					},
 					TimeOffset: "-1.0",
 				},
@@ -741,7 +741,7 @@ func Test_parseCtyDatRecordUnitedStatesCtyWtDat(t *testing.T) {
 					ItuZone:       adif.ITUZONE8,
 					LatLon: geo.LatLonDeg{
 						Lat: 37.53,
-						Lon: 91.67,
+						Lon: -91.67,
 					},
 					TimeOffset: "5.0",
 				},
@@ -755,7 +755,7 @@ func Test_parseCtyDatRecordUnitedStatesCtyWtDat(t *testing.T) {
 					ItuZone:       adif.ITUZONE8,
 					LatLon: geo.LatLonDeg{
 						Lat: 37.53,
-						Lon: 91.67,
+						Lon: -91.67,
 					},
 					TimeOffset: "5.0",
 				},
@@ -769,7 +769,7 @@ func Test_parseCtyDatRecordUnitedStatesCtyWtDat(t *testing.T) {
 					ItuZone:       adif.ITUZONE8,
 					LatLon: geo.LatLonDeg{
 						Lat: 42.27,
-						Lon: 71.37,
+						Lon: -71.37,
 					},
 					TimeOffset: "5.0",
 				},
@@ -783,7 +783,7 @@ func Test_parseCtyDatRecordUnitedStatesCtyWtDat(t *testing.T) {
 					ItuZone:       adif.ITUZONE7,
 					LatLon: geo.LatLonDeg{
 						Lat: 39.52,
-						Lon: 105.20,
+						Lon: -105.20,
 					},
 					TimeOffset: "6.0",
 				},

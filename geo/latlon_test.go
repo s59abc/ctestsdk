@@ -28,7 +28,8 @@ func TestLatLon_Equal(t *testing.T) {
 
 func TestLatLon_String(t *testing.T) {
 	a := LatLonDeg{1.12345, -1.12345}
-	if a.String() != "Lat=1.1235, Lon=-1.1235" {
+	if a.String() != "{1.123450 -1.123450}" {
+		fmt.Println(a.String())
 		t.Fatal()
 	}
 }

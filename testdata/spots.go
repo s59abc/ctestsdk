@@ -3,6 +3,7 @@ package testdata
 var Spots = [...]string{
 
 	"DX de S50ARX-#:   7035.3  LA9QJA       CW 16 dB 16 WPM CQ             1553Z",
+	"DX de KM3T-2-#:   1823.3  K0RF           CW    14 dB  25 WPM  CQ      1035Z",
 	"DX de S50ARX-#:  28015.1  EW2W         CW 32 dB 26 WPM CQ             1553Z",
 	"DX de CT1EUB:    50313.0  9A4ZM        tnx qso                        1553Z",
 	"DX de M0HYE:     24975.1  AM70U        TU GL 73                       1553Z",

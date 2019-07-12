@@ -102,7 +102,7 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []spot.CtyDta, err error
 		return []spot.CtyDta{}, wrongFormattedRecord("Wrong formatted longitude: "+fields[5], ctyDatRecord)
 	}
 	primaryDta.LatLon.Lat = lat
-	primaryDta.LatLon.Lon = lon
+	primaryDta.LatLon.Lon = -lon // + is for East not for West as it is defined in CTY.DAT format document
 	//
 	//61	9	Local time offset from GMT
 	primaryDta.TimeOffset = strings.TrimSpace(fields[6])
@@ -174,7 +174,7 @@ func parseCtyDatRecord(ctyDatRecord string) (ctyDatList []spot.CtyDta, err error
 					return []spot.CtyDta{}, wrongFormattedRecord("wrong formatted override Latitude/Longitude: "+overrideLatLon, ctyDatRecord)
 				} else {
 					aliasDta.LatLon.Lat = lat
-					aliasDta.LatLon.Lon = lon
+					aliasDta.LatLon.Lon = -lon
 				}
 			}
 			//
